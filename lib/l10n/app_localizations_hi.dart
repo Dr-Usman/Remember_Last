@@ -116,10 +116,10 @@ class AppLocalizationsHi extends AppLocalizations {
   String get contactUsSubtitle => 'प्रतिक्रिया भेजें या बग रिपोर्ट करें';
 
   @override
-  String get moreFromDeveloper => 'डेवलपर से और';
+  String get moreApps => 'और ऐप';
 
   @override
-  String get moreFromDeveloperSubtitle => 'Avenzor House के अन्य ऐप';
+  String get moreAppsSubtitle => 'डेवलपर के अन्य ऐप';
 
   @override
   String get privacyPolicy => 'गोपनीयता नीति';

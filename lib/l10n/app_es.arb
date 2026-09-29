@@ -48,8 +48,8 @@
   "rateAppSubtitle": "Deja una reseña en la tienda de aplicaciones",
   "contactUs": "Contáctanos",
   "contactUsSubtitle": "Enviar comentarios o informar un error",
-  "moreFromDeveloper": "Más del desarrollador",
-  "moreFromDeveloperSubtitle": "Otras apps de Avenzor House",
+  "moreApps": "Más aplicaciones",
+  "moreAppsSubtitle": "Otras aplicaciones del desarrollador",
   "privacyPolicy": "Política de privacidad",
   "backupShareSubject": "Copia de seguridad de {appName}",
   "@backupShareSubject": {

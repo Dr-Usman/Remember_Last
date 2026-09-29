@@ -48,8 +48,8 @@
   "rateAppSubtitle": "Tinggalkan ulasan di gedung aplikasi",
   "contactUs": "Hubungi kami",
   "contactUsSubtitle": "Hantar maklum balas atau laporkan pepijat",
-  "moreFromDeveloper": "Lagi daripada pembangun",
-  "moreFromDeveloperSubtitle": "Aplikasi lain oleh Avenzor House",
+  "moreApps": "Lagi aplikasi",
+  "moreAppsSubtitle": "Aplikasi lain daripada pembangun",
   "privacyPolicy": "Dasar privasi",
   "backupShareSubject": "Sandaran {appName}",
   "@backupShareSubject": {

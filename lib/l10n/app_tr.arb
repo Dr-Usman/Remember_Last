@@ -48,8 +48,8 @@
   "rateAppSubtitle": "Uygulama mağazasında inceleme bırak",
   "contactUs": "Bize ulaşın",
   "contactUsSubtitle": "Geri bildirim gönder veya hata bildir",
-  "moreFromDeveloper": "Geliştiriciden daha fazlası",
-  "moreFromDeveloperSubtitle": "Avenzor House’un diğer uygulamaları",
+  "moreApps": "Daha fazla uygulama",
+  "moreAppsSubtitle": "Geliştiricinin diğer uygulamaları",
   "privacyPolicy": "Gizlilik politikası",
   "backupShareSubject": "{appName} yedeği",
   "@backupShareSubject": {

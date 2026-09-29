@@ -119,10 +119,10 @@ class AppLocalizationsNe extends AppLocalizations {
       'प्रतिक्रिया पठाउनुहोस् वा त्रुटि रिपोर्ट गर्नुहोस्';
 
   @override
-  String get moreFromDeveloper => 'विकासकर्ताबाट थप';
+  String get moreApps => 'थप एपहरू';
 
   @override
-  String get moreFromDeveloperSubtitle => 'Avenzor House का अन्य एपहरू';
+  String get moreAppsSubtitle => 'विकासकर्ताका अन्य एपहरू';
 
   @override
   String get privacyPolicy => 'गोपनीयता नीति';

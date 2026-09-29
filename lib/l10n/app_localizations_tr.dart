@@ -117,10 +117,10 @@ class AppLocalizationsTr extends AppLocalizations {
   String get contactUsSubtitle => 'Geri bildirim gönder veya hata bildir';
 
   @override
-  String get moreFromDeveloper => 'Geliştiriciden daha fazlası';
+  String get moreApps => 'Daha fazla uygulama';
 
   @override
-  String get moreFromDeveloperSubtitle => 'Avenzor House’un diğer uygulamaları';
+  String get moreAppsSubtitle => 'Geliştiricinin diğer uygulamaları';
 
   @override
   String get privacyPolicy => 'Gizlilik politikası';

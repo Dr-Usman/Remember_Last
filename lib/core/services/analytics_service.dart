@@ -66,13 +66,204 @@ class AnalyticsService {
     );
   }
 
+  Future<void> trackActivityCreated({
+    required bool hasTargetInterval,
+    int? intervalDays,
+    required bool hasCategory,
+    required int totalActivitiesCount,
+  }) {
+    return track(
+      AnalyticsConstants.activityCreated,
+      AnalyticsEvents.activityCreated(
+        hasTargetInterval: hasTargetInterval,
+        intervalDays: intervalDays,
+        hasCategory: hasCategory,
+        totalActivitiesCount: totalActivitiesCount,
+      ),
+    );
+  }
+
+  Future<void> trackActivityEdited({
+    required bool editedInterval,
+    required bool editedCategory,
+  }) {
+    return track(
+      AnalyticsConstants.activityEdited,
+      AnalyticsEvents.activityEdited(
+        editedInterval: editedInterval,
+        editedCategory: editedCategory,
+      ),
+    );
+  }
+
+  Future<void> trackActivityDeleted({
+    required String source,
+    required int totalOccurrencesCount,
+  }) {
+    return track(
+      AnalyticsConstants.activityDeleted,
+      AnalyticsEvents.activityDeleted(
+        source: source,
+        totalOccurrencesCount: totalOccurrencesCount,
+      ),
+    );
+  }
+
+  Future<void> trackOccurrenceDeleted({
+    required String source,
+    required DateTime doneAt,
+  }) {
+    return track(
+      AnalyticsConstants.occurrenceDeleted,
+      AnalyticsEvents.occurrenceDeleted(source: source, doneAt: doneAt),
+    );
+  }
+
+  Future<void> trackLanguageChanged({
+    required String previousLanguageCode,
+    required String newLanguageCode,
+    required bool isSystemDefault,
+  }) async {
+    await registerSuperProperties({'language_code': newLanguageCode});
+    return track(
+      AnalyticsConstants.languageChanged,
+      AnalyticsEvents.languageChanged(
+        previousLanguageCode: previousLanguageCode,
+        newLanguageCode: newLanguageCode,
+        isSystemDefault: isSystemDefault,
+      ),
+    );
+  }
+
+  Future<void> trackThemeChanged(String themeMode) async {
+    await registerSuperProperties({'theme_mode': themeMode});
+    return track(
+      AnalyticsConstants.themeChanged,
+      AnalyticsEvents.themeChanged(themeMode: themeMode),
+    );
+  }
+
+  Future<void> trackFilterCategorySelected({
+    required String category,
+    required bool isAll,
+  }) {
+    return track(
+      AnalyticsConstants.filterCategorySelected,
+      AnalyticsEvents.filterCategorySelected(category: category, isAll: isAll),
+    );
+  }
+
+  Future<void> trackSortOrderChanged(String sortOrder) {
+    return track(
+      AnalyticsConstants.sortOrderChanged,
+      AnalyticsEvents.sortOrderChanged(sortOrder: sortOrder),
+    );
+  }
+
+  Future<void> trackSearchPerformed({
+    required bool hadResults,
+    required int resultCount,
+  }) {
+    return track(
+      AnalyticsConstants.searchPerformed,
+      AnalyticsEvents.searchPerformed(
+        hadResults: hadResults,
+        resultCount: resultCount,
+      ),
+    );
+  }
+
+  Future<void> trackBackupExported({
+    required int activitiesCount,
+    required int occurrencesCount,
+  }) {
+    return track(
+      AnalyticsConstants.backupExported,
+      AnalyticsEvents.backupExported(
+        activitiesCount: activitiesCount,
+        occurrencesCount: occurrencesCount,
+      ),
+    );
+  }
+
+  Future<void> trackBackupImported({
+    required bool success,
+    required int activitiesCount,
+    required bool isMerge,
+  }) {
+    return track(
+      AnalyticsConstants.backupImported,
+      AnalyticsEvents.backupImported(
+        success: success,
+        activitiesCount: activitiesCount,
+        isMerge: isMerge,
+      ),
+    );
+  }
+
+  Future<void> trackSettingsActionTapped(String action) {
+    return track(
+      AnalyticsConstants.settingsActionTapped,
+      AnalyticsEvents.settingsActionTapped(action: action),
+    );
+  }
+
+  Future<void> trackActivityInsightsViewed({
+    required String status,
+    required bool hasReminder,
+    int? reminderDays,
+    required bool hasCategory,
+    int? daysSinceLastDone,
+  }) {
+    return track(
+      AnalyticsConstants.activityInsightsViewed,
+      AnalyticsEvents.activityInsightsViewed(
+        status: status,
+        hasReminder: hasReminder,
+        reminderDays: reminderDays,
+        hasCategory: hasCategory,
+        daysSinceLastDone: daysSinceLastDone,
+      ),
+    );
+  }
+
+  Future<void> trackInsightsViewed({
+    required int totalActivities,
+    required int totalOccurrences,
+  }) {
+    return track(
+      AnalyticsConstants.insightsViewed,
+      AnalyticsEvents.insightsViewed(
+        totalActivities: totalActivities,
+        totalOccurrences: totalOccurrences,
+      ),
+    );
+  }
+
+  Future<void> registerSuperProperties(Map<String, dynamic> properties) async {
+    if (!isSupported || _mixpanel == null) return;
+    final optedOut = await _mixpanel!.hasOptedOutTracking();
+    if (optedOut != false) return;
+    await _mixpanel!.registerSuperProperties(properties);
+  }
+
   Future<void> track(String event, Map<String, dynamic> properties) async {
     if (!isSupported || _mixpanel == null) return;
 
     final optedOut = await _mixpanel!.hasOptedOutTracking();
     if (optedOut != false) return;
 
-    await _mixpanel!.track(event, properties: properties);
+    final currentTheme =
+        await _prefs.getString(PrefsKeys.themeMode) ?? 'system';
+    final currentLocale = await _prefs.getString(PrefsKeys.locale) ?? 'system';
+
+    final enriched = <String, dynamic>{
+      'language_code': currentLocale,
+      'theme_mode': currentTheme,
+      ...properties,
+    };
+
+    await _mixpanel!.track(event, properties: enriched);
   }
 
   Future<void> _optIn({String? appVersion, bool persist = true}) async {
@@ -87,9 +278,15 @@ class AnalyticsService {
 
     await _ensureInitialized();
     _mixpanel!.optInTracking();
+
+    final savedTheme = await _prefs.getString(PrefsKeys.themeMode) ?? 'system';
+    final savedLocale = await _prefs.getString(PrefsKeys.locale) ?? 'system';
+
     await _mixpanel!.registerSuperProperties({
       'platform': AnalyticsEvents.platformName,
       'app_version': ?appVersion,
+      'language_code': savedLocale,
+      'theme_mode': savedTheme,
     });
   }
 

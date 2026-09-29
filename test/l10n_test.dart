@@ -88,8 +88,8 @@ void main() {
     await tester.tap(find.byType(LanguagePickerTile));
     await tester.pumpAndSettle();
 
-    expect(find.text('Deutsch'), findsOneWidget);
-    expect(find.text('German'), findsOneWidget);
+    expect(find.text('বাংলা'), findsOneWidget);
+    expect(find.text('Bengali'), findsOneWidget);
     // Tile subtitle + sheet row both show this label.
     expect(find.text('System default'), findsWidgets);
   });

@@ -48,8 +48,8 @@
   "rateAppSubtitle": "เขียนรีวิวในสโตร์แอป",
   "contactUs": "ติดต่อเรา",
   "contactUsSubtitle": "ส่งข้อเสนอแนะหรือรายงานข้อผิดพลาด",
-  "moreFromDeveloper": "เพิ่มเติมจากนักพัฒนา",
-  "moreFromDeveloperSubtitle": "แอปอื่นจาก Avenzor House",
+  "moreApps": "แอปเพิ่มเติม",
+  "moreAppsSubtitle": "แอปอื่นจากผู้พัฒนา",
   "privacyPolicy": "นโยบายความเป็นส่วนตัว",
   "backupShareSubject": "ข้อมูลสำรอง {appName}",
   "@backupShareSubject": {

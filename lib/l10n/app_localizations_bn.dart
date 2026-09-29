@@ -116,10 +116,10 @@ class AppLocalizationsBn extends AppLocalizations {
   String get contactUsSubtitle => 'মতামত পাঠান বা বাগ রিপোর্ট করুন';
 
   @override
-  String get moreFromDeveloper => 'ডেভেলপারের আরও অ্যাপ';
+  String get moreApps => 'আরও অ্যাপ';
 
   @override
-  String get moreFromDeveloperSubtitle => 'Avenzor House এর অন্যান্য অ্যাপ';
+  String get moreAppsSubtitle => 'ডেভেলপারের অন্যান্য অ্যাপ';
 
   @override
   String get privacyPolicy => 'গোপনীয়তা নীতি';

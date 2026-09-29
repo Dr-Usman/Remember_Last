@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import '../../../categories/presentation/providers/categories_providers.dart';
+import '../../../../core/providers/analytics_provider.dart';
 import '../providers/activities_providers.dart';
 import '../../../../l10n/app_localizations.dart';
 
@@ -83,14 +84,29 @@ class _HomeFiltersBarState extends ConsumerState<HomeFiltersBar> {
                   onChanged: (value) => ref
                       .read(activityFilterProvider.notifier)
                       .setSearch(value),
+                  onSubmitted: (value) {
+                    if (value.trim().isEmpty) return;
+                    final items =
+                        ref.read(filteredActivitiesProvider).valueOrNull ?? [];
+                    ref
+                        .read(analyticsServiceProvider)
+                        .trackSearchPerformed(
+                          hadResults: items.isNotEmpty,
+                          resultCount: items.length,
+                        );
+                  },
                 ),
               ),
             ),
             const SizedBox(width: 8),
             PopupMenuButton<ActivitySort>(
               tooltip: l10n.sortTooltip(_sortLabel(l10n, filter.sort)),
-              onSelected: (sort) =>
-                  ref.read(activityFilterProvider.notifier).setSort(sort),
+              onSelected: (sort) {
+                ref.read(activityFilterProvider.notifier).setSort(sort);
+                ref
+                    .read(analyticsServiceProvider)
+                    .trackSortOrderChanged(sort.name);
+              },
               itemBuilder: (context) => [
                 _sortMenuItem(
                   value: ActivitySort.recentlyDone,
@@ -154,9 +170,17 @@ class _HomeFiltersBarState extends ConsumerState<HomeFiltersBar> {
                   _CategoryChip(
                     label: l10n.categoryAll,
                     selected: filter.category == null,
-                    onSelected: () => ref
-                        .read(activityFilterProvider.notifier)
-                        .setCategory(null),
+                    onSelected: () {
+                      ref
+                          .read(activityFilterProvider.notifier)
+                          .setCategory(null);
+                      ref
+                          .read(analyticsServiceProvider)
+                          .trackFilterCategorySelected(
+                            category: 'all',
+                            isAll: true,
+                          );
+                    },
                   ),
                   const SizedBox(width: 8),
                   ...categories.map(
@@ -165,9 +189,17 @@ class _HomeFiltersBarState extends ConsumerState<HomeFiltersBar> {
                       child: _CategoryChip(
                         label: cat,
                         selected: filter.category == cat,
-                        onSelected: () => ref
-                            .read(activityFilterProvider.notifier)
-                            .setCategory(cat),
+                        onSelected: () {
+                          ref
+                              .read(activityFilterProvider.notifier)
+                              .setCategory(cat);
+                          ref
+                              .read(analyticsServiceProvider)
+                              .trackFilterCategorySelected(
+                                category: cat,
+                                isAll: false,
+                              );
+                        },
                       ),
                     ),
                   ),

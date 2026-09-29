@@ -29,7 +29,7 @@ jobs:
           test -f web/drift_worker.js
 
       - name: Build web release
-        run: flutter build web --release --no-wasm-dry-run --base-href "/remember_last/"
+        run: flutter build web --release --no-wasm-dry-run --base-href "/Remember_Last/"
 
       - name: Include privacy policy static page
         run: mkdir -p build/web/privacy && cp -r web/privacy/* build/web/privacy/

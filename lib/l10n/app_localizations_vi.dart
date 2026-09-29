@@ -116,10 +116,10 @@ class AppLocalizationsVi extends AppLocalizations {
   String get contactUsSubtitle => 'Gửi phản hồi hoặc báo lỗi';
 
   @override
-  String get moreFromDeveloper => 'Thêm từ nhà phát triển';
+  String get moreApps => 'Thêm ứng dụng';
 
   @override
-  String get moreFromDeveloperSubtitle => 'Các ứng dụng khác của Avenzor House';
+  String get moreAppsSubtitle => 'Các ứng dụng khác từ nhà phát triển';
 
   @override
   String get privacyPolicy => 'Chính sách quyền riêng tư';

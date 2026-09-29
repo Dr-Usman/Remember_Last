@@ -342,17 +342,17 @@ abstract class AppLocalizations {
   /// **'Send feedback or report a bug'**
   String get contactUsSubtitle;
 
-  /// No description provided for @moreFromDeveloper.
+  /// No description provided for @moreApps.
   ///
   /// In en, this message translates to:
-  /// **'More from developer'**
-  String get moreFromDeveloper;
+  /// **'More apps'**
+  String get moreApps;
 
-  /// No description provided for @moreFromDeveloperSubtitle.
+  /// No description provided for @moreAppsSubtitle.
   ///
   /// In en, this message translates to:
-  /// **'Other apps by Avenzor House'**
-  String get moreFromDeveloperSubtitle;
+  /// **'Other apps from the developer'**
+  String get moreAppsSubtitle;
 
   /// No description provided for @privacyPolicy.
   ///

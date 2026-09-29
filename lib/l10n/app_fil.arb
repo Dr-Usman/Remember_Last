@@ -48,8 +48,8 @@
   "rateAppSubtitle": "Mag-iwan ng review sa app store",
   "contactUs": "Makipag-ugnayan sa amin",
   "contactUsSubtitle": "Magpadala ng feedback o mag-ulat ng bug",
-  "moreFromDeveloper": "Higit pa mula sa developer",
-  "moreFromDeveloperSubtitle": "Iba pang app ng Avenzor House",
+  "moreApps": "Higit pang app",
+  "moreAppsSubtitle": "Iba pang app mula sa developer",
   "privacyPolicy": "Patakaran sa privacy",
   "backupShareSubject": "Backup ng {appName}",
   "@backupShareSubject": {

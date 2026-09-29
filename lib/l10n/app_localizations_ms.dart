@@ -116,10 +116,10 @@ class AppLocalizationsMs extends AppLocalizations {
   String get contactUsSubtitle => 'Hantar maklum balas atau laporkan pepijat';
 
   @override
-  String get moreFromDeveloper => 'Lagi daripada pembangun';
+  String get moreApps => 'Lagi aplikasi';
 
   @override
-  String get moreFromDeveloperSubtitle => 'Aplikasi lain oleh Avenzor House';
+  String get moreAppsSubtitle => 'Aplikasi lain daripada pembangun';
 
   @override
   String get privacyPolicy => 'Dasar privasi';

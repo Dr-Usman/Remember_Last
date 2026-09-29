@@ -117,10 +117,10 @@ class AppLocalizationsFil extends AppLocalizations {
   String get contactUsSubtitle => 'Magpadala ng feedback o mag-ulat ng bug';
 
   @override
-  String get moreFromDeveloper => 'Higit pa mula sa developer';
+  String get moreApps => 'Higit pang app';
 
   @override
-  String get moreFromDeveloperSubtitle => 'Iba pang app ng Avenzor House';
+  String get moreAppsSubtitle => 'Iba pang app mula sa developer';
 
   @override
   String get privacyPolicy => 'Patakaran sa privacy';

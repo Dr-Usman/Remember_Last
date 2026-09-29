@@ -48,8 +48,8 @@
   "rateAppSubtitle": "在应用商店留下评价",
   "contactUs": "联系我们",
   "contactUsSubtitle": "发送反馈或报告问题",
-  "moreFromDeveloper": "开发者的更多应用",
-  "moreFromDeveloperSubtitle": "Avenzor House 的其他应用",
+  "moreApps": "更多应用",
+  "moreAppsSubtitle": "开发者的其他应用",
   "privacyPolicy": "隐私政策",
   "backupShareSubject": "{appName} 备份",
   "@backupShareSubject": {

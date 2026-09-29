@@ -115,10 +115,10 @@ class AppLocalizationsJa extends AppLocalizations {
   String get contactUsSubtitle => 'フィードバックを送るか不具合を報告';
 
   @override
-  String get moreFromDeveloper => '開発者のその他のアプリ';
+  String get moreApps => 'その他のアプリ';
 
   @override
-  String get moreFromDeveloperSubtitle => 'Avenzor House のその他のアプリ';
+  String get moreAppsSubtitle => '開発者のその他のアプリ';
 
   @override
   String get privacyPolicy => 'プライバシーポリシー';

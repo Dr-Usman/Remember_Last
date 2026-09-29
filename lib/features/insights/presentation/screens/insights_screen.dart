@@ -2,6 +2,7 @@ import 'package:fl_chart/fl_chart.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
+import '../../../../core/providers/analytics_provider.dart';
 import '../../../../core/theme/app_colors.dart';
 import '../../../../core/utils/activity_status.dart';
 import '../../../../core/widgets/status_indicator.dart';
@@ -30,6 +31,16 @@ class _InsightsScreenState extends ConsumerState<InsightsScreen> {
   @override
   Widget build(BuildContext context) {
     final l10n = AppLocalizations.of(context);
+    ref.listen(insightsProvider, (previous, next) {
+      next.whenData((insights) {
+        ref
+            .read(analyticsServiceProvider)
+            .trackInsightsViewed(
+              totalActivities: insights.totalActivities,
+              totalOccurrences: insights.totalLogs,
+            );
+      });
+    });
     final insightsAsync = ref.watch(insightsProvider);
 
     return Scaffold(

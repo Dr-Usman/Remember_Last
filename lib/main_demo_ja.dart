@@ -45,11 +45,7 @@ class _DemoJaHostState extends ConsumerState<_DemoJaHost> {
   Widget build(BuildContext context) {
     if (!_seeded) {
       return const MaterialApp(
-        home: Scaffold(
-          body: Center(
-            child: CircularProgressIndicator(),
-          ),
-        ),
+        home: Scaffold(body: Center(child: CircularProgressIndicator())),
       );
     }
 

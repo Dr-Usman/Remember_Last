@@ -48,8 +48,8 @@
   "rateAppSubtitle": "Tinggalkan ulasan di toko aplikasi",
   "contactUs": "Hubungi kami",
   "contactUsSubtitle": "Kirim masukan atau laporkan bug",
-  "moreFromDeveloper": "Lainnya dari pengembang",
-  "moreFromDeveloperSubtitle": "Aplikasi lain oleh Avenzor House",
+  "moreApps": "Aplikasi lainnya",
+  "moreAppsSubtitle": "Aplikasi lain dari pengembang",
   "privacyPolicy": "Kebijakan privasi",
   "backupShareSubject": "Cadangan {appName}",
   "@backupShareSubject": {

@@ -48,8 +48,8 @@
   "rateAppSubtitle": "Laat een recensie achter in de app store",
   "contactUs": "Contact",
   "contactUsSubtitle": "Feedback sturen of een bug melden",
-  "moreFromDeveloper": "Meer van de ontwikkelaar",
-  "moreFromDeveloperSubtitle": "Andere apps van Avenzor House",
+  "moreApps": "Meer apps",
+  "moreAppsSubtitle": "Andere apps van de ontwikkelaar",
   "privacyPolicy": "Privacybeleid",
   "backupShareSubject": "{appName}-back-up",
   "@backupShareSubject": {

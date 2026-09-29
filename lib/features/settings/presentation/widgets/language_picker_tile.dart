@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
+import '../../../../core/providers/analytics_provider.dart';
 import '../../../../core/providers/locale_override_provider.dart';
 import '../../../../l10n/app_locales.dart';
 import '../../../../l10n/app_localizations.dart';
@@ -42,12 +43,27 @@ class LanguagePickerTile extends ConsumerWidget {
     );
 
     if (selected == null) return;
+    final prevLang = current?.languageCode ?? 'system';
     if (selected == PrefsLocale.system) {
       await ref.read(localeOverrideProvider.notifier).setLocale(null);
+      ref
+          .read(analyticsServiceProvider)
+          .trackLanguageChanged(
+            previousLanguageCode: prevLang,
+            newLanguageCode: 'system',
+            isSystemDefault: true,
+          );
     } else if (selected is String) {
       await ref
           .read(localeOverrideProvider.notifier)
           .setLocale(AppLocales.parse(selected));
+      ref
+          .read(analyticsServiceProvider)
+          .trackLanguageChanged(
+            previousLanguageCode: prevLang,
+            newLanguageCode: selected,
+            isSystemDefault: false,
+          );
     }
   }
 }

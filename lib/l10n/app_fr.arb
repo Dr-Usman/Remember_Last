@@ -48,8 +48,8 @@
   "rateAppSubtitle": "Laisser un avis sur l’app store",
   "contactUs": "Nous contacter",
   "contactUsSubtitle": "Envoyer un retour ou signaler un bug",
-  "moreFromDeveloper": "Plus du développeur",
-  "moreFromDeveloperSubtitle": "Autres applis d’Avenzor House",
+  "moreApps": "Plus d’applications",
+  "moreAppsSubtitle": "Autres applications du développeur",
   "privacyPolicy": "Politique de confidentialité",
   "backupShareSubject": "Sauvegarde {appName}",
   "@backupShareSubject": {

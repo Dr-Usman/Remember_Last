@@ -48,8 +48,8 @@
   "rateAppSubtitle": "アプリストアにレビューを残す",
   "contactUs": "お問い合わせ",
   "contactUsSubtitle": "フィードバックを送るか不具合を報告",
-  "moreFromDeveloper": "開発者のその他のアプリ",
-  "moreFromDeveloperSubtitle": "Avenzor House のその他のアプリ",
+  "moreApps": "その他のアプリ",
+  "moreAppsSubtitle": "開発者のその他のアプリ",
   "privacyPolicy": "プライバシーポリシー",
   "backupShareSubject": "{appName} のバックアップ",
   "@backupShareSubject": {

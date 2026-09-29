@@ -4,6 +4,7 @@ import 'package:go_router/go_router.dart';
 
 import '../../../activities/presentation/providers/activities_providers.dart';
 import '../../../../core/database/database_provider.dart';
+import '../../../../core/providers/analytics_provider.dart';
 import '../../../../core/router/app_routes.dart';
 import '../../../../core/utils/activity_status.dart';
 import '../../../../core/utils/date_formatter.dart';
@@ -146,6 +147,15 @@ class ActivityDetailScreen extends ConsumerWidget {
       ).deleteActivityMessage(activity.title),
     );
     if (!confirmed || !context.mounted) return;
+    final occurrences = await ref
+        .read(occurrenceRepositoryProvider)
+        .getByActivityId(activityId);
+    ref
+        .read(analyticsServiceProvider)
+        .trackActivityDeleted(
+          source: 'app_bar_action',
+          totalOccurrencesCount: occurrences.length,
+        );
     await ref.read(activityRepositoryProvider).delete(activityId);
     if (context.mounted) context.pop();
   }
@@ -276,6 +286,9 @@ class _HistoryTile extends ConsumerWidget {
   final int activityId;
 
   Future<void> _deleteOccurrence(WidgetRef ref) async {
+    ref
+        .read(analyticsServiceProvider)
+        .trackOccurrenceDeleted(source: 'swipe', doneAt: occurrence.doneAt);
     await ref.read(occurrenceRepositoryProvider).delete(occurrence.id);
   }
 

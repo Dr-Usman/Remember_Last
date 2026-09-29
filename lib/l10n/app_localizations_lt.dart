@@ -118,10 +118,10 @@ class AppLocalizationsLt extends AppLocalizations {
       'Siųskite atsiliepimus arba praneškite apie klaidą';
 
   @override
-  String get moreFromDeveloper => 'Daugiau iš kūrėjo';
+  String get moreApps => 'Daugiau programėlių';
 
   @override
-  String get moreFromDeveloperSubtitle => 'Kitos „Avenzor House“ programėlės';
+  String get moreAppsSubtitle => 'Kitos kūrėjo programėlės';
 
   @override
   String get privacyPolicy => 'Privatumo politika';

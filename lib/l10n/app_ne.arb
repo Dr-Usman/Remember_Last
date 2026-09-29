@@ -48,8 +48,8 @@
   "rateAppSubtitle": "एप स्टोरमा समीक्षा छोड्नुहोस्",
   "contactUs": "हामीलाई सम्पर्क गर्नुहोस्",
   "contactUsSubtitle": "प्रतिक्रिया पठाउनुहोस् वा त्रुटि रिपोर्ट गर्नुहोस्",
-  "moreFromDeveloper": "विकासकर्ताबाट थप",
-  "moreFromDeveloperSubtitle": "Avenzor House का अन्य एपहरू",
+  "moreApps": "थप एपहरू",
+  "moreAppsSubtitle": "विकासकर्ताका अन्य एपहरू",
   "privacyPolicy": "गोपनीयता नीति",
   "backupShareSubject": "{appName} ब्याकअप",
   "@backupShareSubject": {

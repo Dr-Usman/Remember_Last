@@ -48,8 +48,8 @@
   "rateAppSubtitle": "Lasă o recenzie în magazinul de aplicații",
   "contactUs": "Contactează-ne",
   "contactUsSubtitle": "Trimite feedback sau raportează o eroare",
-  "moreFromDeveloper": "Mai multe de la dezvoltator",
-  "moreFromDeveloperSubtitle": "Alte aplicații de Avenzor House",
+  "moreApps": "Mai multe aplicații",
+  "moreAppsSubtitle": "Alte aplicații ale dezvoltatorului",
   "privacyPolicy": "Politica de confidențialitate",
   "backupShareSubject": "Copie de rezervă {appName}",
   "@backupShareSubject": {

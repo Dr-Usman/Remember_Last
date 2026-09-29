@@ -115,10 +115,10 @@ class AppLocalizationsKo extends AppLocalizations {
   String get contactUsSubtitle => '피드백 보내기 또는 버그 신고';
 
   @override
-  String get moreFromDeveloper => '개발자의 다른 앱';
+  String get moreApps => '더 많은 앱';
 
   @override
-  String get moreFromDeveloperSubtitle => 'Avenzor House의 다른 앱';
+  String get moreAppsSubtitle => '개발자의 다른 앱';
 
   @override
   String get privacyPolicy => '개인정보 처리방침';

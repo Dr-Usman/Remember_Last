@@ -115,10 +115,10 @@ class AppLocalizationsZh extends AppLocalizations {
   String get contactUsSubtitle => '发送反馈或报告问题';
 
   @override
-  String get moreFromDeveloper => '开发者的更多应用';
+  String get moreApps => '更多应用';
 
   @override
-  String get moreFromDeveloperSubtitle => 'Avenzor House 的其他应用';
+  String get moreAppsSubtitle => '开发者的其他应用';
 
   @override
   String get privacyPolicy => '隐私政策';

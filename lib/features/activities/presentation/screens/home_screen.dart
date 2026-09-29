@@ -194,6 +194,15 @@ class _ActivityList extends ConsumerWidget {
         );
       },
       onDismissed: (_) async {
+        final occurrences = await ref
+            .read(occurrenceRepositoryProvider)
+            .getByActivityId(activity.id);
+        ref
+            .read(analyticsServiceProvider)
+            .trackActivityDeleted(
+              source: 'swipe',
+              totalOccurrencesCount: occurrences.length,
+            );
         await ref.read(activityRepositoryProvider).delete(activity.id);
         if (context.mounted) {
           ScaffoldMessenger.of(context).showSnackBar(
@@ -210,7 +219,23 @@ class _ActivityList extends ConsumerWidget {
         status: listItem.status,
         elapsedNow: elapsedNow,
         categoryColor: categoryColor,
-        onTap: () => context.push(AppRoutes.activityDetail(activity.id)),
+        onTap: () {
+          final lastDone = listItem.item.lastDoneAt;
+          final daysSince = lastDone != null
+              ? DateTime.now().difference(lastDone).inDays
+              : null;
+          ref
+              .read(analyticsServiceProvider)
+              .trackActivityInsightsViewed(
+                status: listItem.status.name,
+                hasReminder: activity.reminderDays != null,
+                reminderDays: activity.reminderDays,
+                hasCategory:
+                    activity.category != null && activity.category!.isNotEmpty,
+                daysSinceLastDone: daysSince,
+              );
+          context.push(AppRoutes.activityDetail(activity.id));
+        },
         onQuickLog: () => _quickLog(context, ref, activity.id, activity.title),
       ),
     );

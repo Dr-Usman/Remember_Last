@@ -116,10 +116,10 @@ class AppLocalizationsId extends AppLocalizations {
   String get contactUsSubtitle => 'Kirim masukan atau laporkan bug';
 
   @override
-  String get moreFromDeveloper => 'Lainnya dari pengembang';
+  String get moreApps => 'Aplikasi lainnya';
 
   @override
-  String get moreFromDeveloperSubtitle => 'Aplikasi lain oleh Avenzor House';
+  String get moreAppsSubtitle => 'Aplikasi lain dari pengembang';
 
   @override
   String get privacyPolicy => 'Kebijakan privasi';

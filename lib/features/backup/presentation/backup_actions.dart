@@ -5,6 +5,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:share_plus/share_plus.dart';
 
 import '../../../core/constants/app_constants.dart';
+import '../../../core/providers/analytics_provider.dart';
 import '../../../core/widgets/confirm_dialog.dart';
 import '../../../l10n/app_localizations.dart';
 import '../domain/backup_service.dart';
@@ -20,6 +21,14 @@ class BackupActions {
     try {
       final service = _ref.read(backupServiceProvider);
       final data = await service.exportToJson();
+      final activities = data['activities'] as List? ?? const [];
+      final occurrences = data['occurrences'] as List? ?? const [];
+      _ref
+          .read(analyticsServiceProvider)
+          .trackBackupExported(
+            activitiesCount: activities.length,
+            occurrencesCount: occurrences.length,
+          );
       final json = service.encodeExport(data);
       final timestamp = DateTime.now().toIso8601String().split('T').first;
       final filename = 'remember_last_$timestamp.json';
@@ -95,6 +104,13 @@ class BackupActions {
         json,
         merge: shouldMerge,
       );
+      _ref
+          .read(analyticsServiceProvider)
+          .trackBackupImported(
+            success: true,
+            activitiesCount: importResult.activities,
+            isMerge: shouldMerge,
+          );
 
       if (context.mounted) {
         ScaffoldMessenger.of(context).showSnackBar(
@@ -109,6 +125,13 @@ class BackupActions {
         );
       }
     } catch (e) {
+      _ref
+          .read(analyticsServiceProvider)
+          .trackBackupImported(
+            success: false,
+            activitiesCount: 0,
+            isMerge: shouldMerge,
+          );
       if (context.mounted) {
         ScaffoldMessenger.of(
           context,

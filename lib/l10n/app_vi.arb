@@ -48,8 +48,8 @@
   "rateAppSubtitle": "Để lại đánh giá trên cửa hàng ứng dụng",
   "contactUs": "Liên hệ",
   "contactUsSubtitle": "Gửi phản hồi hoặc báo lỗi",
-  "moreFromDeveloper": "Thêm từ nhà phát triển",
-  "moreFromDeveloperSubtitle": "Các ứng dụng khác của Avenzor House",
+  "moreApps": "Thêm ứng dụng",
+  "moreAppsSubtitle": "Các ứng dụng khác từ nhà phát triển",
   "privacyPolicy": "Chính sách quyền riêng tư",
   "backupShareSubject": "Bản sao lưu {appName}",
   "@backupShareSubject": {

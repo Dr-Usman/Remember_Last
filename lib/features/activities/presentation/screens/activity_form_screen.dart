@@ -5,6 +5,7 @@ import 'package:go_router/go_router.dart';
 import 'package:uuid/uuid.dart';
 
 import '../../../../core/database/database_provider.dart';
+import '../../../../core/providers/analytics_provider.dart';
 import '../../../../core/router/app_routes.dart';
 import '../../../categories/presentation/providers/categories_providers.dart';
 import '../../domain/entities/activity.dart';
@@ -306,6 +307,15 @@ class _ActivityFormScreenState extends ConsumerState<ActivityFormScreen> {
           updatedAt: now,
         ),
       );
+      ref
+          .read(analyticsServiceProvider)
+          .trackActivityEdited(
+            editedInterval:
+                _existing!.reminderDays != reminderDays ||
+                _existing!.reminderType != reminderType,
+            editedCategory:
+                _existing!.category != (category.isEmpty ? null : category),
+          );
     } else {
       await repo.insert(
         Activity(
@@ -322,6 +332,15 @@ class _ActivityFormScreenState extends ConsumerState<ActivityFormScreen> {
           updatedAt: now,
         ),
       );
+      final allActivities = await repo.getAll();
+      ref
+          .read(analyticsServiceProvider)
+          .trackActivityCreated(
+            hasTargetInterval: reminderDays != null,
+            intervalDays: reminderDays,
+            hasCategory: category.isNotEmpty,
+            totalActivitiesCount: allActivities.length,
+          );
     }
 
     if (mounted) context.pop();

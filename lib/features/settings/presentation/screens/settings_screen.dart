@@ -108,9 +108,11 @@ class _SettingsScreenState extends ConsumerState<SettingsScreen> {
                     ],
                     selected: {themeMode},
                     onSelectionChanged: (selected) {
+                      final mode = selected.single;
+                      ref.read(themeModeProvider.notifier).setThemeMode(mode);
                       ref
-                          .read(themeModeProvider.notifier)
-                          .setThemeMode(selected.single);
+                          .read(analyticsServiceProvider)
+                          .trackThemeChanged(mode.name);
                     },
                   ),
                 ),
@@ -162,33 +164,58 @@ class _SettingsScreenState extends ConsumerState<SettingsScreen> {
                     icon: Icons.share_outlined,
                     title: l10n.shareApp,
                     subtitle: l10n.shareAppSubtitle(AppConstants.appName),
-                    onTap: () => settingsActions.shareApp(context),
+                    onTap: () {
+                      ref
+                          .read(analyticsServiceProvider)
+                          .trackSettingsActionTapped('share_app');
+                      settingsActions.shareApp(context);
+                    },
                   ),
                 if (SettingsActions.canRateApp)
                   SettingsTile(
                     icon: Icons.star_outline,
                     title: l10n.rateApp,
                     subtitle: l10n.rateAppSubtitle,
-                    onTap: () => settingsActions.rateApp(context),
+                    onTap: () {
+                      ref
+                          .read(analyticsServiceProvider)
+                          .trackSettingsActionTapped('rate_app');
+                      settingsActions.rateApp(context);
+                    },
                   ),
                 SettingsTile(
                   icon: Icons.mail_outline,
                   title: l10n.contactUs,
                   subtitle: l10n.contactUsSubtitle,
-                  onTap: () => settingsActions.contactUs(context),
+                  onTap: () {
+                    ref
+                        .read(analyticsServiceProvider)
+                        .trackSettingsActionTapped('contact_us');
+                    settingsActions.contactUs(context);
+                  },
                 ),
                 if (SettingsActions.canShowDeveloperPage)
                   SettingsTile(
                     icon: Icons.apps_outlined,
-                    title: l10n.moreFromDeveloper,
-                    subtitle: l10n.moreFromDeveloperSubtitle,
-                    onTap: () => settingsActions.openDeveloperPage(context),
+                    title: l10n.moreApps,
+                    subtitle: l10n.moreAppsSubtitle,
+                    onTap: () {
+                      ref
+                          .read(analyticsServiceProvider)
+                          .trackSettingsActionTapped('more_apps');
+                      settingsActions.openDeveloperPage(context);
+                    },
                   ),
                 SettingsTile(
                   icon: Icons.privacy_tip_outlined,
                   title: l10n.privacyPolicy,
                   showChevron: true,
-                  onTap: () => context.push(AppRoutes.privacy),
+                  onTap: () {
+                    ref
+                        .read(analyticsServiceProvider)
+                        .trackSettingsActionTapped('privacy_policy');
+                    context.push(AppRoutes.privacy);
+                  },
                 ),
               ],
             ),

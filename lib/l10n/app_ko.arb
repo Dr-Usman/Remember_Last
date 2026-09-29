@@ -48,8 +48,8 @@
   "rateAppSubtitle": "앱 스토어에 리뷰 남기기",
   "contactUs": "문의하기",
   "contactUsSubtitle": "피드백 보내기 또는 버그 신고",
-  "moreFromDeveloper": "개발자의 다른 앱",
-  "moreFromDeveloperSubtitle": "Avenzor House의 다른 앱",
+  "moreApps": "더 많은 앱",
+  "moreAppsSubtitle": "개발자의 다른 앱",
   "privacyPolicy": "개인정보 처리방침",
   "backupShareSubject": "{appName} 백업",
   "@backupShareSubject": {

@@ -33,7 +33,7 @@ abstract final class AppConstants {
   /// Hosted privacy policy (deployed with Flutter web at /privacy/).
   /// Interim URL before web deploy: GitHub blob for docs/privacy_policy.md.
   static const privacyPolicyUrl =
-      'https://dr-usman.github.io/remember_last/privacy/';
+      'https://dr-usman.github.io/Remember_Last/privacy/';
 
   /// Apple App Store listing.
   static const appStoreUrl =

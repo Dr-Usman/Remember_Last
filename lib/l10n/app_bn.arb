@@ -48,8 +48,8 @@
   "rateAppSubtitle": "অ্যাপ স্টোরে একটি পর্যালোচনা রাখুন",
   "contactUs": "যোগাযোগ করুন",
   "contactUsSubtitle": "মতামত পাঠান বা বাগ রিপোর্ট করুন",
-  "moreFromDeveloper": "ডেভেলপারের আরও অ্যাপ",
-  "moreFromDeveloperSubtitle": "Avenzor House এর অন্যান্য অ্যাপ",
+  "moreApps": "আরও অ্যাপ",
+  "moreAppsSubtitle": "ডেভেলপারের অন্যান্য অ্যাপ",
   "privacyPolicy": "গোপনীয়তা নীতি",
   "backupShareSubject": "{appName} ব্যাকআপ",
   "@backupShareSubject": {

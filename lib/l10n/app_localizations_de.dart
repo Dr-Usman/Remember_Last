@@ -117,10 +117,10 @@ class AppLocalizationsDe extends AppLocalizations {
   String get contactUsSubtitle => 'Feedback senden oder einen Fehler melden';
 
   @override
-  String get moreFromDeveloper => 'Mehr vom Entwickler';
+  String get moreApps => 'Mehr Apps';
 
   @override
-  String get moreFromDeveloperSubtitle => 'Weitere Apps von Avenzor House';
+  String get moreAppsSubtitle => 'Weitere Apps des Entwicklers';
 
   @override
   String get privacyPolicy => 'Datenschutzerklärung';

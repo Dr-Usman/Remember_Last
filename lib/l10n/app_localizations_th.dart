@@ -116,10 +116,10 @@ class AppLocalizationsTh extends AppLocalizations {
   String get contactUsSubtitle => 'ส่งข้อเสนอแนะหรือรายงานข้อผิดพลาด';
 
   @override
-  String get moreFromDeveloper => 'เพิ่มเติมจากนักพัฒนา';
+  String get moreApps => 'แอปเพิ่มเติม';
 
   @override
-  String get moreFromDeveloperSubtitle => 'แอปอื่นจาก Avenzor House';
+  String get moreAppsSubtitle => 'แอปอื่นจากผู้พัฒนา';
 
   @override
   String get privacyPolicy => 'นโยบายความเป็นส่วนตัว';

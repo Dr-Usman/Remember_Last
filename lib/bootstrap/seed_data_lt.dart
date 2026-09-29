@@ -35,14 +35,12 @@ Future<void> seedLithuanianDemoData(WidgetRef ref) async {
   ];
 
   for (final (name, color) in ltCategories) {
-    await db.into(db.categories).insert(
-      CategoriesCompanion.insert(
-        name: name,
-        color: color,
-        createdAt: now,
-      ),
-      mode: InsertMode.insertOrIgnore,
-    );
+    await db
+        .into(db.categories)
+        .insert(
+          CategoriesCompanion.insert(name: name, color: color, createdAt: now),
+          mode: InsertMode.insertOrIgnore,
+        );
   }
 
   // 4. Seed Lithuanian Sample Activities
