@@ -7,6 +7,22 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [1.4.1] - 2026-09-29
+
+### Added
+
+- Comprehensive zero-PII Mixpanel analytics: tracking for deletion source (swipe vs. action), occurrence timing metadata, category filter selection, sort order changes, search result metrics, backup export/import status, and activity/global insights views.
+- Automatic event enrichment: real-time `language_code` and `theme_mode` super properties attached to every analytics event.
+
+### Changed
+
+- Sorted language picker bottom sheet: English pinned first, followed by the remaining 21 languages sorted alphabetically (A–Z) by English name.
+- Renamed settings localization key to `moreApps` and updated copy to "More apps" / "Other apps from the developer" across all 22 supported locales.
+
+### Fixed
+
+- GitHub Pages privacy policy URL casing aligned to `Remember_Last` in code constants and deployment workflow to resolve 404 response.
+
 ## [1.4.0] - 2026-09-29
 
 ### Added

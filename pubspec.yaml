@@ -1,7 +1,7 @@
 name: remember_last
 description: "Offline-first Last Done Tracker — remember when you last did anything."
 publish_to: 'none'
-version: 1.4.0+5
+version: 1.4.1+6
 
 environment:
   sdk: ^3.12.2
