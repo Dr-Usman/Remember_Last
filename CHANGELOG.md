@@ -7,6 +7,15 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [1.4.0] - 2026-09-29
+
+### Added
+
+- Native Lithuanian (`lt`) in-app localization with full translation of UI chrome, relative timestamps, and accessibility semantics.
+- Registered Lithuanian (`Lietuvių`) in the language selection sheet.
+- Authentic Lithuanian seed dataset and demo runner for promotional asset generation.
+- Lithuanian Google Play Store promotional mockups (1024×1536) generated from real device screenshots.
+
 ## [1.3.0] - 2026-09-24
 
 ### Added
