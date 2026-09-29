@@ -24,6 +24,7 @@ abstract final class AppLocales {
     Locale('tr'),
     Locale('ja'),
     Locale('ko'),
+    Locale('lt'),
   ];
 
   /// Native language names for the Settings picker.
@@ -49,6 +50,7 @@ abstract final class AppLocales {
     'tr': 'Türkçe',
     'ja': '日本語',
     'ko': '한국어',
+    'lt': 'Lietuvių',
   };
 
   /// English language names shown as secondary labels in the picker.
@@ -74,6 +76,7 @@ abstract final class AppLocales {
     'tr': 'Turkish',
     'ja': 'Japanese',
     'ko': 'Korean',
+    'lt': 'Lithuanian',
   };
 
   static String nativeName(Locale locale) =>

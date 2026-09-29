@@ -52,6 +52,21 @@ void main() {
     expect(find.text('Einstellungen'), findsOneWidget);
   });
 
+  testWidgets('Lithuanian chrome is used when locale is lt', (tester) async {
+    await tester.pumpWidget(
+      wrapApp(
+        Builder(
+          builder: (context) {
+            return Text(AppLocalizations.of(context).settings);
+          },
+        ),
+        locale: const Locale('lt'),
+      ),
+    );
+    await tester.pumpAndSettle();
+    expect(find.text('Nustatymai'), findsOneWidget);
+  });
+
   test('AppLocales covers every generated locale', () {
     final generated = AppLocalizations.supportedLocales
         .map((l) => l.languageCode)

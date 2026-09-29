@@ -104,6 +104,7 @@ COUNTRIES = {
     'lithuania': {
         'font_path': LATIN_FONT,
         'font_index': 1,
+        'raw_dir': 'lt',
         'screens': {
             '01': {
                 'pill': '100% NEPRISIJUNGUS • BE REKLAMŲ',
