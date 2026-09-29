@@ -11,7 +11,7 @@ Offline-first **Last Done Tracker** — remember when you last did anything.
 
 Not a habit tracker. No streaks, no pressure. Just log when you did something and see how long ago it was.
 
-**[Try the live demo](https://dr-usman.github.io/remember_last/)**
+**[Try the live demo](https://dr-usman.github.io/Remember_Last/)**
 
 ## Download
 
@@ -22,7 +22,7 @@ supported platforms from GitHub Releases.
   <a href="https://play.google.com/store/apps/details?id=com.avenzor.remember_last">
     <img src="https://play.google.com/intl/en_us/badges/static/images/badges/en_badge_web_generic.png" alt="Get RememberLast on Google Play" height="80" />
   </a>
-  <a href="https://github.com/Dr-Usman/remember_last/releases/latest">
+  <a href="https://github.com/Dr-Usman/Remember_Last/releases/latest">
     <img src="https://raw.githubusercontent.com/rubenpgrady/get-it-on-github/refs/heads/main/get-it-on-github.png" alt="Get RememberLast on GitHub" height="80" />
   </a>
 </p>
@@ -88,7 +88,7 @@ Brand name, store URLs, and privacy URL live in `lib/core/constants/app_constant
 ## Privacy Policy
 
 - **In-app source:** [`docs/privacy_policy.md`](docs/privacy_policy.md) (rendered in Settings → Privacy policy)
-- **Hosted page:** https://dr-usman.github.io/remember_last/privacy/
+- **Hosted page:** https://dr-usman.github.io/Remember_Last/privacy/
 - **Source for the hosted page:** [`web/privacy/index.html`](web/privacy/index.html)
 
 When updating the policy, edit `docs/privacy_policy.md` and sync `web/privacy/index.html`.

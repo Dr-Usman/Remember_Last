@@ -68,7 +68,7 @@ The tag must match the semver portion of `pubspec.yaml` (`v1.0.1` → `1.0.1+2`)
 flutter build appbundle --release
 ```
 
-After a `v*` tag push, `deploy-pages.yml` also builds the web app with `--base-href /remember_last/`, copies `web/privacy/` into the output, and deploys to GitHub Pages.
+After a `v*` tag push, `deploy-pages.yml` also builds the web app with `--base-href /Remember_Last/`, copies `web/privacy/` into the output, and deploys to GitHub Pages.
 
 ## Required GitHub Secrets
 
