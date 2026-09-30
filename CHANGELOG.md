@@ -7,6 +7,21 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [1.5.0] - 2026-09-30
+
+### Added
+
+- Categories management: manage categories with custom names, assigned Material icons, and tailored color palettes.
+- Categories bottom sheet picker: quick category selection with circular icon avatar badges and instant clear button.
+- Database schema upgrade to v2: automated migration creating `categories` table and pre-populating default categories.
+- Day of week display: integrated day of week into all absolute dates and timestamps (`Wed, Sep 30, 2026 • 4:20 PM`) across Next Due, Activity Detail, and Log Entry sheets.
+- Zero-PII analytics tracking for category creation, editing, deletion, and selection.
+
+### Changed
+
+- History tile layout in activity detail screen optimized with single-line `FittedBox` scaling, preventing awkward line wrapping across screen sizes.
+- Bottom sheets updated with native drag handles and dismiss close buttons.
+
 ## [1.4.1] - 2026-09-29
 
 ### Added
