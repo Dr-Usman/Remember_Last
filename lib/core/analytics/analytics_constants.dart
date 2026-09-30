@@ -20,6 +20,12 @@ abstract final class AnalyticsConstants {
   static const sortOrderChanged = 'sort_order_changed';
   static const searchPerformed = 'search_performed';
 
+  // Category management & selection
+  static const categoryCreated = 'category_created';
+  static const categoryEdited = 'category_edited';
+  static const categoryDeleted = 'category_deleted';
+  static const categorySelected = 'category_selected';
+
   // Data & Backup
   static const backupExported = 'backup_exported';
   static const backupImported = 'backup_imported';

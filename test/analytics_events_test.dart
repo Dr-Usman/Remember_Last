@@ -144,6 +144,49 @@ void main() {
       expect(map['action'], 'rate_app');
     });
 
+    test('categoryCreated builds expected map', () {
+      final map = AnalyticsEvents.categoryCreated(
+        categoryName: 'Gym',
+        icon: 'fitness_center',
+        source: 'picker_sheet',
+      );
+      expect(map['category_name'], 'Gym');
+      expect(map['icon'], 'fitness_center');
+      expect(map['source'], 'picker_sheet');
+    });
+
+    test('categoryEdited builds expected map', () {
+      final map = AnalyticsEvents.categoryEdited(
+        oldName: 'Gym',
+        newName: 'Fitness',
+        icon: 'fitness_center',
+      );
+      expect(map['old_name'], 'Gym');
+      expect(map['new_name'], 'Fitness');
+      expect(map['icon'], 'fitness_center');
+    });
+
+    test('categoryDeleted builds expected map', () {
+      final map = AnalyticsEvents.categoryDeleted(categoryName: 'Gym');
+      expect(map['category_name'], 'Gym');
+    });
+
+    test('categorySelected builds expected map', () {
+      final mapSelected = AnalyticsEvents.categorySelected(
+        category: 'Health',
+        isCleared: false,
+      );
+      expect(mapSelected['category'], 'Health');
+      expect(mapSelected['is_cleared'], isFalse);
+
+      final mapCleared = AnalyticsEvents.categorySelected(
+        category: '',
+        isCleared: true,
+      );
+      expect(mapCleared['category'], '');
+      expect(mapCleared['is_cleared'], isTrue);
+    });
+
     test('isBackdatedEntry correctly flags entries older than 1 minute', () {
       final now = DateTime.now();
       expect(AnalyticsEvents.isBackdatedEntry(now), isFalse);
@@ -170,6 +213,10 @@ void main() {
       );
       expect(AnalyticsConstants.sortOrderChanged, 'sort_order_changed');
       expect(AnalyticsConstants.searchPerformed, 'search_performed');
+      expect(AnalyticsConstants.categoryCreated, 'category_created');
+      expect(AnalyticsConstants.categoryEdited, 'category_edited');
+      expect(AnalyticsConstants.categoryDeleted, 'category_deleted');
+      expect(AnalyticsConstants.categorySelected, 'category_selected');
       expect(AnalyticsConstants.backupExported, 'backup_exported');
       expect(AnalyticsConstants.backupImported, 'backup_imported');
       expect(AnalyticsConstants.settingsActionTapped, 'settings_action_tapped');

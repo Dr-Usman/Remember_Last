@@ -173,6 +173,56 @@ class AnalyticsService {
     );
   }
 
+  Future<void> trackCategoryCreated({
+    required String categoryName,
+    required String icon,
+    required String source,
+  }) {
+    return track(
+      AnalyticsConstants.categoryCreated,
+      AnalyticsEvents.categoryCreated(
+        categoryName: categoryName,
+        icon: icon,
+        source: source,
+      ),
+    );
+  }
+
+  Future<void> trackCategoryEdited({
+    required String oldName,
+    required String newName,
+    required String icon,
+  }) {
+    return track(
+      AnalyticsConstants.categoryEdited,
+      AnalyticsEvents.categoryEdited(
+        oldName: oldName,
+        newName: newName,
+        icon: icon,
+      ),
+    );
+  }
+
+  Future<void> trackCategoryDeleted({required String categoryName}) {
+    return track(
+      AnalyticsConstants.categoryDeleted,
+      AnalyticsEvents.categoryDeleted(categoryName: categoryName),
+    );
+  }
+
+  Future<void> trackCategorySelected({
+    required String category,
+    required bool isCleared,
+  }) {
+    return track(
+      AnalyticsConstants.categorySelected,
+      AnalyticsEvents.categorySelected(
+        category: category,
+        isCleared: isCleared,
+      ),
+    );
+  }
+
   Future<void> trackBackupExported({
     required int activitiesCount,
     required int occurrencesCount,

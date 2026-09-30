@@ -102,6 +102,41 @@ abstract final class AnalyticsEvents {
     'platform': platformName,
   };
 
+  static Map<String, dynamic> categoryCreated({
+    required String categoryName,
+    required String icon,
+    required String source,
+  }) => {
+    'category_name': categoryName,
+    'icon': icon,
+    'source': source,
+    'platform': platformName,
+  };
+
+  static Map<String, dynamic> categoryEdited({
+    required String oldName,
+    required String newName,
+    required String icon,
+  }) => {
+    'old_name': oldName,
+    'new_name': newName,
+    'icon': icon,
+    'platform': platformName,
+  };
+
+  static Map<String, dynamic> categoryDeleted({
+    required String categoryName,
+  }) => {'category_name': categoryName, 'platform': platformName};
+
+  static Map<String, dynamic> categorySelected({
+    required String category,
+    required bool isCleared,
+  }) => {
+    'category': category,
+    'is_cleared': isCleared,
+    'platform': platformName,
+  };
+
   static Map<String, dynamic> backupExported({
     required int activitiesCount,
     required int occurrencesCount,
