@@ -12,6 +12,7 @@ class ActivityInsight {
     required this.lastIntervalDays,
     required this.status,
     required this.intervals,
+    this.lastDoneAt,
   });
 
   final Activity activity;
@@ -20,6 +21,7 @@ class ActivityInsight {
   final double? lastIntervalDays;
   final ActivityStatus status;
   final List<double> intervals;
+  final DateTime? lastDoneAt;
 }
 
 class GlobalInsight {
@@ -70,9 +72,26 @@ final insightsProvider = FutureProvider<GlobalInsight>((ref) async {
         status: status,
         // Chart only needs the most recent gaps — keep the payload small.
         intervals: intervals.take(10).toList(),
+        lastDoneAt: item.lastDoneAt,
       ),
     );
   }
+
+  // Sort activities by recently done first, matching home screen behavior.
+  // Never-logged activities are placed at the end, ordered by creation date.
+  insights.sort((a, b) {
+    if (a.lastDoneAt != null && b.lastDoneAt != null) {
+      final cmp = b.lastDoneAt!.compareTo(a.lastDoneAt!);
+      if (cmp != 0) return cmp;
+    } else if (a.lastDoneAt != null) {
+      return -1;
+    } else if (b.lastDoneAt != null) {
+      return 1;
+    }
+    final updateCmp = b.activity.updatedAt.compareTo(a.activity.updatedAt);
+    if (updateCmp != 0) return updateCmp;
+    return b.activity.createdAt.compareTo(a.activity.createdAt);
+  });
 
   // Pick one overdue activity to highlight (alphabetically first if several).
   final mostOverdue = insights

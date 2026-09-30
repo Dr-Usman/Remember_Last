@@ -164,9 +164,14 @@ class _ActivityList extends ConsumerWidget {
   ) {
     final activity = listItem.item.activity;
     final colorMap = ref.watch(categoryColorMapProvider).valueOrNull;
+    final iconMap = ref.watch(categoryIconMapProvider).valueOrNull;
     final categoryName = activity.category;
-    final categoryColor = (categoryName != null && categoryName.isNotEmpty)
+    final hasCategory = categoryName != null && categoryName.isNotEmpty;
+    final categoryColor = hasCategory
         ? resolveCategoryColor(categoryName, colorMap)
+        : null;
+    final categoryIcon = hasCategory
+        ? resolveCategoryIcon(categoryName, iconMap)
         : null;
 
     return Dismissible(
@@ -219,6 +224,7 @@ class _ActivityList extends ConsumerWidget {
         status: listItem.status,
         elapsedNow: elapsedNow,
         categoryColor: categoryColor,
+        categoryIcon: categoryIcon,
         onTap: () {
           final lastDone = listItem.item.lastDoneAt;
           final daysSince = lastDone != null

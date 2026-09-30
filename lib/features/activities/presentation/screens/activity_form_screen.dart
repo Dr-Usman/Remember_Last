@@ -6,8 +6,8 @@ import 'package:uuid/uuid.dart';
 
 import '../../../../core/database/database_provider.dart';
 import '../../../../core/providers/analytics_provider.dart';
-import '../../../../core/router/app_routes.dart';
 import '../../../categories/presentation/providers/categories_providers.dart';
+import '../../../categories/presentation/widgets/category_picker_sheet.dart';
 import '../../domain/entities/activity.dart';
 import '../../domain/enums/reminder_type.dart';
 import '../../../../core/utils/l10n_labels.dart';
@@ -85,6 +85,17 @@ class _ActivityFormScreenState extends ConsumerState<ActivityFormScreen> {
     final l10n = AppLocalizations.of(context);
     final categoriesAsync = ref.watch(mergedCategoriesProvider);
     final categoryOptions = categoriesAsync.valueOrNull ?? [];
+    final categoryColors = ref.watch(categoryColorMapProvider).valueOrNull;
+    final categoryIcons = ref.watch(categoryIconMapProvider).valueOrNull;
+
+    final selectedCategory = _categoryController.text.trim();
+    final hasCategory = selectedCategory.isNotEmpty;
+    final categoryColor = hasCategory
+        ? resolveCategoryColor(selectedCategory, categoryColors)
+        : null;
+    final categoryIcon = hasCategory
+        ? resolveCategoryIcon(selectedCategory, categoryIcons)
+        : null;
 
     return Scaffold(
       appBar: AppBar(
@@ -111,48 +122,74 @@ class _ActivityFormScreenState extends ConsumerState<ActivityFormScreen> {
                         : null,
                   ),
                   const SizedBox(height: 16),
-                  Autocomplete<String>(
-                    // Remount when categories change — Autocomplete only refreshes
-                    // options when field text changes, so new categories would stay hidden.
-                    key: ValueKey(categoryOptions.join('\u0001')),
-                    optionsBuilder: (textEditingValue) {
-                      if (textEditingValue.text.isEmpty) {
-                        return categoryOptions;
-                      }
-                      return categoryOptions.where(
-                        (c) => c.toLowerCase().contains(
-                          textEditingValue.text.toLowerCase(),
-                        ),
+                  TextFormField(
+                    key: const Key('activity_category_picker_field'),
+                    controller: _categoryController,
+                    readOnly: true,
+                    showCursor: false,
+                    onTap: () async {
+                      final picked = await CategoryPickerSheet.show(
+                        context,
+                        selectedCategory: hasCategory ? selectedCategory : null,
+                        categoryOptions: categoryOptions,
                       );
+                      if (picked != null) {
+                        setState(() => _categoryController.text = picked);
+                        ref.read(analyticsServiceProvider).trackCategorySelected(
+                              category: picked,
+                              isCleared: picked.isEmpty,
+                            );
+                      }
                     },
-                    onSelected: (value) => _categoryController.text = value,
-                    fieldViewBuilder:
-                        (context, controller, focusNode, onSubmitted) {
-                          if (_categoryController.text.isNotEmpty &&
-                              controller.text != _categoryController.text) {
-                            controller.text = _categoryController.text;
-                          }
-                          return TextFormField(
-                            controller: controller,
-                            focusNode: focusNode,
-                            decoration: InputDecoration(
-                              labelText: l10n.categoryLabel,
-                              hintText: l10n.categoryHint,
-                              suffixIcon: IconButton(
-                                icon: const Icon(
-                                  Icons.settings_outlined,
-                                  size: 20,
+                    decoration: InputDecoration(
+                      labelText: l10n.categoryLabel,
+                      hintText: l10n.categoryHint,
+                      prefixIcon: hasCategory
+                          ? Padding(
+                              padding: const EdgeInsets.all(12),
+                              child: CircleAvatar(
+                                radius: 12,
+                                backgroundColor: categoryColor?.withValues(
+                                  alpha: 0.18,
                                 ),
-                                tooltip: l10n.manageCategories,
-                                onPressed: () =>
-                                    context.push(AppRoutes.categories),
+                                foregroundColor: categoryColor,
+                                child: Icon(categoryIcon, size: 14),
                               ),
+                            )
+                          : const Icon(Icons.label_outline, size: 20),
+                      suffixIcon: Row(
+                        mainAxisSize: MainAxisSize.min,
+                        children: [
+                          if (hasCategory)
+                            IconButton(
+                              icon: const Icon(Icons.clear_rounded, size: 20),
+                              tooltip: l10n.cancel,
+                              padding: EdgeInsets.zero,
+                              constraints: const BoxConstraints(
+                                minWidth: 36,
+                                minHeight: 36,
+                              ),
+                              onPressed: () {
+                                _categoryController.clear();
+                                setState(() {});
+                                ref
+                                    .read(analyticsServiceProvider)
+                                    .trackCategorySelected(
+                                      category: '',
+                                      isCleared: true,
+                                    );
+                              },
                             ),
-                            onTapOutside: (_) =>
-                                FocusManager.instance.primaryFocus?.unfocus(),
-                            onChanged: (v) => _categoryController.text = v,
-                          );
-                        },
+                          const Padding(
+                            padding: EdgeInsets.only(right: 12, left: 4),
+                            child: Icon(
+                              Icons.keyboard_arrow_down_rounded,
+                              size: 22,
+                            ),
+                          ),
+                        ],
+                      ),
+                    ),
                   ),
                   const SizedBox(height: 16),
                   TextFormField(

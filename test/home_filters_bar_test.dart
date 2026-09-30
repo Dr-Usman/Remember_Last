@@ -47,4 +47,46 @@ void main() {
       reason: 'Unexpected render/semantics assertions: $errors',
     );
   });
+
+  testWidgets(
+    'HomeFiltersBar renders category chips with icons and handles tap',
+    (tester) async {
+      await tester.pumpWidget(
+        ProviderScope(
+          overrides: [
+            mergedCategoriesProvider.overrideWith(
+              (ref) => Stream.value(const <String>['Work', 'Vehicle']),
+            ),
+            categoryIconMapProvider.overrideWith(
+              (ref) => Stream.value(const <String, String?>{
+                'Work': 'work',
+                'Vehicle': 'directions_car',
+              }),
+            ),
+          ],
+          child: wrapApp(
+            const Scaffold(
+              body: Padding(
+                padding: EdgeInsets.all(16),
+                child: HomeFiltersBar(),
+              ),
+            ),
+          ),
+        ),
+      );
+
+      await tester.pump();
+      await tester.pump(const Duration(milliseconds: 50));
+
+      expect(find.text('All'), findsOneWidget);
+      expect(find.text('Work'), findsOneWidget);
+      expect(find.text('Vehicle'), findsOneWidget);
+      expect(find.byIcon(Icons.work_rounded), findsOneWidget);
+      expect(find.byIcon(Icons.directions_car_rounded), findsOneWidget);
+
+      // Tap on 'Work' filter chip
+      await tester.tap(find.text('Work'));
+      await tester.pump();
+    },
+  );
 }

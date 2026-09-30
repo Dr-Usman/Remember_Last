@@ -38,6 +38,7 @@ class _HomeFiltersBarState extends ConsumerState<HomeFiltersBar> {
     final l10n = AppLocalizations.of(context);
     final filter = ref.watch(activityFilterProvider);
     final categoriesAsync = ref.watch(mergedCategoriesProvider);
+    final iconMap = ref.watch(categoryIconMapProvider).valueOrNull;
 
     // Keep controller in sync when filter is cleared externally.
     if (_searchController.text != filter.searchQuery) {
@@ -188,6 +189,7 @@ class _HomeFiltersBarState extends ConsumerState<HomeFiltersBar> {
                       padding: const EdgeInsets.only(right: 8),
                       child: _CategoryChip(
                         label: cat,
+                        icon: resolveCategoryIcon(cat, iconMap),
                         selected: filter.category == cat,
                         onSelected: () {
                           ref
@@ -246,20 +248,29 @@ class _CategoryChip extends StatelessWidget {
     required this.label,
     required this.selected,
     required this.onSelected,
+    this.icon,
   });
 
   final String label;
   final bool selected;
   final VoidCallback onSelected;
+  final IconData? icon;
 
   @override
   Widget build(BuildContext context) {
     final scheme = Theme.of(context).colorScheme;
 
     return FilterChip(
+      avatar: icon != null
+          ? Icon(
+              icon,
+              size: 16,
+              color: selected ? scheme.primary : scheme.onSurfaceVariant,
+            )
+          : null,
       label: Text(label),
       selected: selected,
-      showCheckmark: true,
+      showCheckmark: false,
       onSelected: (_) => onSelected(),
       labelStyle: TextStyle(
         fontSize: 14,
