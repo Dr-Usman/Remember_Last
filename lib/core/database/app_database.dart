@@ -15,9 +15,20 @@ class AppDatabase extends _$AppDatabase {
   AppDatabase([QueryExecutor? executor]) : super(executor ?? _openConnection());
 
   @override
-  int get schemaVersion => 1;
+  int get schemaVersion => 2;
 
-  static const defaultCategoryNames = ['Home', 'Health', 'Vehicle', 'Personal'];
+  static const defaultCategories = [
+    (name: 'Home', icon: 'home'),
+    (name: 'Health', icon: 'favorite'),
+    (name: 'Vehicle', icon: 'directions_car'),
+    (name: 'Personal', icon: 'person'),
+    (name: 'Work', icon: 'work'),
+    (name: 'Fitness', icon: 'fitness_center'),
+    (name: 'Pets', icon: 'pets'),
+    (name: 'Finance', icon: 'payments'),
+  ];
+  static List<String> get defaultCategoryNames =>
+      defaultCategories.map((c) => c.name).toList();
   static const databaseName = 'remember_last.db';
 
   @override
@@ -28,7 +39,31 @@ class AppDatabase extends _$AppDatabase {
       await _seedDefaultCategories();
     },
     onUpgrade: (m, from, to) async {
-      // Squashed to schemaVersion 1 — no stepwise upgrades.
+      if (from < 2) {
+        await m.addColumn(categories, categories.icon);
+        for (final item in defaultCategories) {
+          await (update(
+            categories,
+          )..where((c) => c.name.equals(item.name))).write(
+            CategoriesCompanion(
+              color: Value(CategoryColors.argbForName(item.name)),
+              icon: Value(item.icon),
+            ),
+          );
+        }
+        await _seedDefaultCategories();
+      }
+    },
+    beforeOpen: (details) async {
+      for (final item in defaultCategories) {
+        await (update(
+          categories,
+        )..where((c) => c.name.equals(item.name))).write(
+          CategoriesCompanion(
+            color: Value(CategoryColors.argbForName(item.name)),
+          ),
+        );
+      }
     },
   );
 
@@ -46,11 +81,12 @@ class AppDatabase extends _$AppDatabase {
 
   Future<void> _seedDefaultCategories() async {
     final now = DateTime.now();
-    for (final name in defaultCategoryNames) {
+    for (final item in defaultCategories) {
       await into(categories).insert(
         CategoriesCompanion.insert(
-          name: name,
-          color: CategoryColors.argbForName(name),
+          name: item.name,
+          color: CategoryColors.argbForName(item.name),
+          icon: Value(item.icon),
           createdAt: now,
         ),
         mode: InsertMode.insertOrIgnore,
@@ -201,10 +237,16 @@ class AppDatabase extends _$AppDatabase {
   Future<void> deleteCategory(int id) =>
       (delete(categories)..where((t) => t.id.equals(id))).go();
 
-  Future<void> renameCategory(int id, String newName) =>
+  Future<void> updateCategory(int id, {String? newName, String? newIcon}) =>
       (update(categories)..where((t) => t.id.equals(id))).write(
-        CategoriesCompanion(name: Value(newName)),
+        CategoriesCompanion(
+          name: newName != null ? Value(newName) : const Value.absent(),
+          icon: newIcon != null ? Value(newIcon) : const Value.absent(),
+        ),
       );
+
+  Future<void> renameCategory(int id, String newName, {String? newIcon}) =>
+      updateCategory(id, newName: newName, newIcon: newIcon);
 }
 
 QueryExecutor _openConnection() {

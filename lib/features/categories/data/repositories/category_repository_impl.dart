@@ -1,3 +1,5 @@
+import 'package:drift/drift.dart';
+
 import '../../../../core/database/app_database.dart';
 import '../../../../core/theme/category_colors.dart';
 import '../../domain/repositories/category_repository.dart';
@@ -21,12 +23,13 @@ class CategoryRepositoryImpl implements CategoryRepository {
   }
 
   @override
-  Future<int> addCategory(String name) async {
+  Future<int> addCategory(String name, {String? icon}) async {
     final trimmed = name.trim();
     return _db.insertCategory(
       CategoriesCompanion.insert(
         name: trimmed,
         color: CategoryColors.argbForName(trimmed),
+        icon: Value(icon),
         createdAt: DateTime.now(),
       ),
     );
@@ -36,8 +39,8 @@ class CategoryRepositoryImpl implements CategoryRepository {
   Future<void> deleteCategory(int id) => _db.deleteCategory(id);
 
   @override
-  Future<void> renameCategory(int id, String newName) =>
-      _db.renameCategory(id, newName.trim());
+  Future<void> renameCategory(int id, String newName, {String? newIcon}) =>
+      _db.renameCategory(id, newName.trim(), newIcon: newIcon);
 }
 
 /// Merged list of managed categories plus any used on activities.

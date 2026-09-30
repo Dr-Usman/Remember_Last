@@ -3,6 +3,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import '../../../../core/database/database_provider.dart';
 import '../../../../core/theme/category_colors.dart';
+import '../../../../core/theme/category_icons.dart';
 import '../../data/repositories/category_repository_impl.dart';
 import '../../domain/repositories/category_repository.dart';
 
@@ -31,6 +32,18 @@ final categoryColorMapProvider = StreamProvider<Map<String, Color>>((ref) {
   });
 });
 
+/// Name → icon key for activity chips and filters.
+final categoryIconMapProvider = StreamProvider<Map<String, String?>>((ref) {
+  return ref.watch(databaseProvider).watchCategories().map((rows) {
+    return {for (final row in rows) row.name: row.icon};
+  });
+});
+
 Color resolveCategoryColor(String name, Map<String, Color>? map) {
   return map?[name] ?? CategoryColors.pickForName(name);
+}
+
+IconData resolveCategoryIcon(String name, Map<String, String?>? map) {
+  final iconKey = map?[name];
+  return CategoryIcons.getIcon(iconKey, categoryName: name);
 }
