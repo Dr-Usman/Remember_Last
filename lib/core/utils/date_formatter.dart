@@ -38,8 +38,12 @@ class DateFormatter {
     return DateFormat.yMMMd(locale).format(dateTime);
   }
 
+  static String formatAbsoluteDateWithDay(DateTime dateTime, String locale) {
+    return DateFormat.yMMMEd(locale).format(dateTime);
+  }
+
   static String formatAbsoluteDateTime(DateTime dateTime, String locale) {
-    final date = DateFormat.yMMMd(locale).format(dateTime);
+    final date = DateFormat.yMMMEd(locale).format(dateTime);
     final time = DateFormat.jm(locale).format(dateTime);
     return '$date • $time';
   }

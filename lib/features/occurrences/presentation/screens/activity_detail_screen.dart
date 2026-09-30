@@ -3,11 +3,13 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 
 import '../../../activities/presentation/providers/activities_providers.dart';
+import '../../../categories/presentation/providers/categories_providers.dart';
 import '../../../../core/database/database_provider.dart';
 import '../../../../core/providers/analytics_provider.dart';
 import '../../../../core/router/app_routes.dart';
 import '../../../../core/utils/activity_status.dart';
 import '../../../../core/utils/date_formatter.dart';
+import '../../../../core/widgets/category_chip.dart';
 import '../../../../core/widgets/confirm_dialog.dart';
 import '../../../../core/widgets/status_indicator.dart';
 import '../../../../l10n/app_localizations.dart';
@@ -25,6 +27,8 @@ class ActivityDetailScreen extends ConsumerWidget {
     final activityAsync = ref.watch(activityByIdProvider(activityId));
     final occurrencesAsync = ref.watch(occurrencesProvider(activityId));
     final elapsedNow = ref.watch(elapsedTickerProvider).valueOrNull;
+    final categoryColors = ref.watch(categoryColorMapProvider).valueOrNull;
+    final categoryIcons = ref.watch(categoryIconMapProvider).valueOrNull;
     final l10n = AppLocalizations.of(context);
     final calculator = ActivityStatusCalculator();
 
@@ -50,6 +54,12 @@ class ActivityDetailScreen extends ConsumerWidget {
               activity: activity,
               lastDoneAt: lastDone,
             );
+            final categoryColor = activity.category != null
+                ? resolveCategoryColor(activity.category!, categoryColors)
+                : null;
+            final categoryIcon = activity.category != null
+                ? resolveCategoryIcon(activity.category!, categoryIcons)
+                : null;
 
             return Scaffold(
               appBar: AppBar(
@@ -70,6 +80,9 @@ class ActivityDetailScreen extends ConsumerWidget {
                 padding: const EdgeInsets.all(16),
                 children: [
                   _HeaderCard(
+                    category: activity.category,
+                    categoryColor: categoryColor,
+                    categoryIcon: categoryIcon,
                     lastDone: lastDone,
                     nextDue: nextDue,
                     status: status,
@@ -214,12 +227,18 @@ class _ActionButtons extends StatelessWidget {
 
 class _HeaderCard extends StatelessWidget {
   const _HeaderCard({
+    this.category,
+    this.categoryColor,
+    this.categoryIcon,
     required this.lastDone,
     required this.nextDue,
     required this.status,
     this.elapsedNow,
   });
 
+  final String? category;
+  final Color? categoryColor;
+  final IconData? categoryIcon;
   final DateTime? lastDone;
   final DateTime? nextDue;
   final ActivityStatus status;
@@ -237,7 +256,25 @@ class _HeaderCard extends StatelessWidget {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            Text(l10n.lastDone, style: theme.textTheme.labelLarge),
+            Row(
+              crossAxisAlignment: CrossAxisAlignment.center,
+              children: [
+                Text(l10n.lastDone, style: theme.textTheme.labelLarge),
+                if (category != null && category!.isNotEmpty) ...[
+                  const SizedBox(width: 8),
+                  Expanded(
+                    child: Align(
+                      alignment: Alignment.centerRight,
+                      child: CategoryChip(
+                        label: category!,
+                        color: categoryColor,
+                        icon: categoryIcon,
+                      ),
+                    ),
+                  ),
+                ],
+              ],
+            ),
             const SizedBox(height: 4),
             Text(
               lastDone != null
@@ -268,7 +305,7 @@ class _HeaderCard extends StatelessWidget {
               Text(l10n.nextDue, style: theme.textTheme.labelLarge),
               const SizedBox(height: 4),
               Text(
-                DateFormatter.formatAbsoluteDate(nextDue!, localeName),
+                DateFormatter.formatAbsoluteDateWithDay(nextDue!, localeName),
                 style: theme.textTheme.titleLarge,
               ),
             ],
@@ -322,20 +359,34 @@ class _HistoryTile extends ConsumerWidget {
       child: Card(
         margin: const EdgeInsets.only(bottom: 8),
         child: ListTile(
-          visualDensity: VisualDensity.compact,
-          contentPadding: const EdgeInsets.fromLTRB(16, 4, 4, 4),
+          contentPadding: const EdgeInsets.fromLTRB(12, 2, 4, 2),
+          minLeadingWidth: 0,
+          horizontalTitleGap: 10,
           leading: Icon(
             Icons.check_circle_outline,
+            size: 22,
             color: Theme.of(context).colorScheme.primary,
           ),
-          title: Text(
-            DateFormatter.formatAbsoluteDateTime(occurrence.doneAt, localeName),
+          title: FittedBox(
+            fit: BoxFit.scaleDown,
+            alignment: Alignment.centerLeft,
+            child: Text(
+              DateFormatter.formatAbsoluteDateTime(
+                occurrence.doneAt,
+                localeName,
+              ),
+              style: Theme.of(
+                context,
+              ).textTheme.bodyLarge?.copyWith(fontWeight: FontWeight.w500),
+            ),
           ),
           subtitle: occurrence.note != null ? Text(occurrence.note!) : null,
           trailing: PopupMenuButton<String>(
-            padding: EdgeInsets.zero,
-            constraints: const BoxConstraints(minWidth: 40),
-            icon: const Icon(Icons.more_vert),
+            tooltip: '',
+            child: const Padding(
+              padding: EdgeInsets.all(6),
+              child: Icon(Icons.more_vert, size: 22),
+            ),
             itemBuilder: (context) => [
               PopupMenuItem(value: 'edit', child: Text(l10n.edit)),
               PopupMenuItem(value: 'delete', child: Text(l10n.delete)),

@@ -3,6 +3,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import '../../../../core/database/database_provider.dart';
 import '../../../../core/providers/analytics_provider.dart';
+import '../../../../core/utils/date_formatter.dart';
 import '../../domain/entities/occurrence.dart';
 import '../../../../l10n/app_localizations.dart';
 
@@ -31,6 +32,7 @@ class LogEntrySheet extends ConsumerStatefulWidget {
       context: context,
       isScrollControlled: true,
       useSafeArea: true,
+      showDragHandle: true,
       builder: (context) => Padding(
         padding: EdgeInsets.only(
           bottom: MediaQuery.viewInsetsOf(context).bottom,
@@ -72,21 +74,34 @@ class _LogEntrySheetState extends ConsumerState<LogEntrySheet> {
   Widget build(BuildContext context) {
     final l10n = AppLocalizations.of(context);
     return Padding(
-      padding: const EdgeInsets.all(24),
+      padding: const EdgeInsets.fromLTRB(24, 0, 24, 24),
       child: Column(
         mainAxisSize: MainAxisSize.min,
         crossAxisAlignment: CrossAxisAlignment.stretch,
         children: [
-          Text(
-            widget.isEditing ? l10n.editEntry : l10n.addEntry,
-            style: Theme.of(context).textTheme.titleLarge,
+          Row(
+            children: [
+              Expanded(
+                child: Text(
+                  widget.isEditing ? l10n.editEntry : l10n.addEntry,
+                  style: Theme.of(context).textTheme.titleLarge,
+                ),
+              ),
+              IconButton(
+                icon: const Icon(Icons.close),
+                tooltip: l10n.cancel,
+                onPressed: () => Navigator.pop(context),
+              ),
+            ],
           ),
           const SizedBox(height: 16),
           _PickerField(
             label: l10n.date,
             icon: Icons.calendar_today,
-            value:
-                '${_selectedDateTime.year}-${_selectedDateTime.month.toString().padLeft(2, '0')}-${_selectedDateTime.day.toString().padLeft(2, '0')}',
+            value: DateFormatter.formatAbsoluteDateWithDay(
+              _selectedDateTime,
+              Localizations.localeOf(context).toString(),
+            ),
             onTap: _pickDate,
           ),
           const SizedBox(height: 16),

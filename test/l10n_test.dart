@@ -37,6 +37,16 @@ void main() {
     expect(DateFormatter.formatElapsed(now, l10n, now: now), 'Just now');
   });
 
+  test('DateFormatter formats with short day correctly', () {
+    final dt = DateTime(2026, 9, 30, 16, 20); // Wednesday
+    final dateWithDay = DateFormatter.formatAbsoluteDateWithDay(dt, 'en');
+    expect(dateWithDay, 'Wed, Sep 30, 2026');
+
+    final dateTimeWithDay = DateFormatter.formatAbsoluteDateTime(dt, 'en');
+    expect(dateTimeWithDay, startsWith('Wed, Sep 30, 2026 • 4:20'));
+    expect(dateTimeWithDay, endsWith('PM'));
+  });
+
   testWidgets('German chrome is used when locale is de', (tester) async {
     await tester.pumpWidget(
       wrapApp(

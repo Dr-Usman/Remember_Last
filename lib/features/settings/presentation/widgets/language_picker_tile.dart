@@ -88,8 +88,19 @@ class _LanguagePickerSheet extends StatelessWidget {
         crossAxisAlignment: CrossAxisAlignment.stretch,
         children: [
           Padding(
-            padding: const EdgeInsets.fromLTRB(24, 8, 24, 16),
-            child: Text(l10n.language, style: theme.textTheme.titleLarge),
+            padding: const EdgeInsets.fromLTRB(24, 0, 16, 8),
+            child: Row(
+              children: [
+                Expanded(
+                  child: Text(l10n.language, style: theme.textTheme.titleLarge),
+                ),
+                IconButton(
+                  icon: const Icon(Icons.close),
+                  tooltip: l10n.cancel,
+                  onPressed: () => Navigator.pop(context),
+                ),
+              ],
+            ),
           ),
           Padding(
             padding: const EdgeInsets.symmetric(horizontal: 16),
