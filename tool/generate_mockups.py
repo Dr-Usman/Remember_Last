@@ -22,6 +22,37 @@ HINDI_FONT = '/System/Library/Fonts/Kohinoor.ttc'
 THAI_FONT = '/System/Library/Fonts/Supplemental/Thonburi.ttc'
 
 COUNTRIES = {
+    'english': {
+        'font_path': LATIN_FONT,
+        'font_index': 1,
+        'screens': {
+            '01': {
+                'pill': '100% OFFLINE • NO ADS',
+                'lines': ['Remember when you', 'last did anything'],
+                'size': 58,
+            },
+            '02': {
+                'pill': 'ACCURATE TIMING',
+                'lines': ['See exactly how long', "it's been"],
+                'size': 60,
+            },
+            '03': {
+                'pill': 'CUSTOM DESIGN',
+                'lines': ['Light and dark —', 'your way'],
+                'size': 58,
+            },
+            '04': {
+                'pill': 'QUICK LOG',
+                'title': 'Done in a single tap',
+                'size': 56,
+            },
+            '05': {
+                'pill': 'CUSTOM CATEGORIES',
+                'lines': ['Organize with icons', '& colors'],
+                'size': 56,
+            }
+        }
+    },
     'germany': {
         'font_path': LATIN_FONT,
         'font_index': 1,
@@ -44,6 +75,11 @@ COUNTRIES = {
             '04': {
                 'pill': 'SCHNELLER EINTRAG',
                 'title': 'Mit einem Fingertipp erledigt',
+                'size': 56,
+            },
+            '05': {
+                'pill': 'EIGENE KATEGORIEN',
+                'lines': ['Mit Icons & Farben', 'organisieren'],
                 'size': 56,
             }
         }
@@ -72,6 +108,11 @@ COUNTRIES = {
                 'pill': 'クイック記録',
                 'title': 'ワンタップでかんたん記録',
                 'size': 52,
+            },
+            '05': {
+                'pill': 'カスタムカテゴリ',
+                'lines': ['アイコンとカラーで', 'すっきり整理'],
+                'size': 54,
             }
         }
     },
@@ -97,6 +138,11 @@ COUNTRIES = {
             '04': {
                 'pill': 'REGISTRO RÁPIDO',
                 'title': 'Registra con un solo toque',
+                'size': 54,
+            },
+            '05': {
+                'pill': 'CATEGORÍAS PERSONALIZADAS',
+                'lines': ['Organiza con iconos', 'y colores'],
                 'size': 54,
             }
         }
@@ -125,6 +171,11 @@ COUNTRIES = {
                 'pill': 'GREITAS ĮRAŠAS',
                 'title': 'Užregistruokite vienu palietimu',
                 'size': 50,
+            },
+            '05': {
+                'pill': 'TINKINAMOS KATEGORIJOS',
+                'lines': ['Tvarkykite su piktogramomis', 'ir spalvomis'],
+                'size': 52,
             }
         }
     },
@@ -151,6 +202,11 @@ COUNTRIES = {
                 'pill': 'त्वरित लॉग',
                 'title': 'एक टैप में त्वरित लॉग',
                 'size': 52,
+            },
+            '05': {
+                'pill': 'कस्टम श्रेणियां',
+                'lines': ['आइकन और रंगों से', 'व्यवस्थित करें'],
+                'size': 54,
             }
         }
     },
@@ -177,6 +233,11 @@ COUNTRIES = {
                 'pill': 'ÎNREGISTRARE RAPIDĂ',
                 'title': 'Înregistrează printr-o atingere',
                 'size': 50,
+            },
+            '05': {
+                'pill': 'CATEGORII PERSONALIZATE',
+                'lines': ['Organizează cu pictograme', 'și culori'],
+                'size': 52,
             }
         }
     },
@@ -203,6 +264,11 @@ COUNTRIES = {
                 'pill': 'บันทึกรวดเร็ว',
                 'title': 'แตะบันทึกได้ทันทีในคลิกเดียว',
                 'size': 48,
+            },
+            '05': {
+                'pill': 'หมวดหมู่ที่กำหนดเอง',
+                'lines': ['จัดระเบียบด้วยไอคอน', 'และสีสัน'],
+                'size': 52,
             }
         }
     },
@@ -229,6 +295,11 @@ COUNTRIES = {
                 'pill': 'SNELLE INVOER',
                 'title': 'Vastleggen met één tik',
                 'size': 54,
+            },
+            '05': {
+                'pill': 'AANGEPASTE CATEGORIEËN',
+                'lines': ['Organiseer met iconen', 'en kleuren'],
+                'size': 54,
             }
         }
     },
@@ -254,6 +325,11 @@ COUNTRIES = {
             '04': {
                 'pill': 'ENREGISTREMENT RAPIDE',
                 'title': 'Enregistrez en un seul geste',
+                'size': 52,
+            },
+            '05': {
+                'pill': 'CATÉGORIES PERSONNALISÉES',
+                'lines': ['Organisez avec icônes', 'et couleurs'],
                 'size': 52,
             }
         }
@@ -375,113 +451,88 @@ def render_header(canvas, pill_text, title_lines, font_path, font_index=1, title
     canvas.paste(header_1x, (0, 0), header_1x)
 
 def render_phone_04(country_key, config, out_dir, raw_dir=RAW_DIR):
-    """Generates Phone 04 using the authentic realistic device chassis."""
+    """Generates Phone 04 with spotlighted card, multi-layer glowing ripple, and enlarged + button."""
     s4 = config['screens']['04']
     raw_sub = config.get('raw_dir')
 
-    if raw_sub:
-        raw_home_path = os.path.join(raw_dir, '01_home.png')
-        raw1 = Image.open(raw_home_path).convert('RGBA')
-        bg4 = create_rich_background(W, H)
-        sh4, dw4, dh4, m4 = build_phone_device(raw1, target_w=580)
-        dev_x = (W - dw4) // 2
-        dev_y = 260
-        bg4.paste(sh4, (dev_x - m4, dev_y - m4), sh4)
+    raw_home_path = os.path.join(raw_dir, '01_home.png')
+    if not os.path.exists(raw_home_path):
+        raw_home_path = os.path.join(RAW_DIR, '01_home.png')
 
-        # Draw glowing ripple over top card's + button
-        cx, cy = 932.5, 776.5
-        scale_f = 580.0 / raw1.width
-        bx = dev_x + 12 + int(cx * scale_f)
-        by = dev_y + 12 + int(cy * scale_f)
+    raw1 = Image.open(raw_home_path).convert('RGBA')
+    bg4 = create_rich_background(W, H)
+    sh4, dw4, dh4, m4 = build_phone_device(raw1, target_w=580)
+    dev_x = (W - dw4) // 2
+    dev_y = 260
+    bg4.paste(sh4, (dev_x - m4, dev_y - m4), sh4)
 
-        glow = Image.new('RGBA', (W, H), (0, 0, 0, 0))
-        d_glow = ImageDraw.Draw(glow)
-        d_glow.ellipse((bx - 52, by - 52, bx + 52, by + 52), fill=(58, 134, 255, 160))
-        glow = glow.filter(ImageFilter.GaussianBlur(12))
+    # Center of + button on first card
+    cx, cy = 932.5, 776.5
+    scale_f = 580.0 / raw1.width
+    bx = dev_x + 12 + int(cx * scale_f)
+    by = dev_y + 12 + int(cy * scale_f)
+    btn_r = int(60 * scale_f)
 
-        d_halo = ImageDraw.Draw(glow)
-        d_halo.ellipse((bx - 36, by - 36, bx + 36, by + 36), outline=(255, 255, 255, 230), width=3)
-        bg4.paste(glow, (0, 0), glow)
+    # Multi-layer glowing ripple & card spotlight
+    glow = Image.new('RGBA', (W, H), (0, 0, 0, 0))
+    d_glow = ImageDraw.Draw(glow)
 
-        # Render 4x supersampled header
-        scale = 4
-        header_h = 240
-        h_4x = Image.new('RGBA', (W * scale, header_h * scale), (0, 0, 0, 0))
-        draw_h = ImageDraw.Draw(h_4x)
+    # 1. Subtle card spotlight
+    card_x1 = dev_x + 12 + int(48 * scale_f)
+    card_y1 = dev_y + 12 + int(690 * scale_f)
+    card_x2 = dev_x + 12 + int(1032 * scale_f)
+    card_y2 = dev_y + 12 + int(1130 * scale_f)
+    d_glow.rounded_rectangle((card_x1 - 8, card_y1 - 8, card_x2 + 8, card_y2 + 8), 24, fill=(40, 110, 255, 35))
 
-        f_bold = ImageFont.truetype(config['font_path'], int(s4['size'] * scale), index=config['font_index'])
-        f_tag = ImageFont.truetype(config['font_path'], 23 * scale, index=config['font_index'])
+    # 2. Outer soft pulse glow
+    d_glow.ellipse((bx - 110, by - 110, bx + 110, by + 110), fill=(30, 100, 255, 55))
+    # 3. Mid glow
+    d_glow.ellipse((bx - 75, by - 75, bx + 75, by + 75), fill=(45, 130, 255, 110))
+    # 4. Inner intense glow
+    d_glow.ellipse((bx - 50, by - 50, bx + 50, by + 50), fill=(60, 160, 255, 180))
 
-        pill_text = s4['pill']
-        title_text = s4['title']
+    glow = glow.filter(ImageFilter.GaussianBlur(16))
 
-        tag_bbox = f_tag.getbbox(pill_text)
-        tag_w = tag_bbox[2] - tag_bbox[0]
-        tag_h = tag_bbox[3] - tag_bbox[1]
-        pad_x = 26 * scale
-        pad_y = 11 * scale
-        pill_w = tag_w + pad_x * 2
-        pill_h = tag_h + pad_y * 2
-        pill_x = (W * scale - pill_w) // 2
-        pill_y = 48 * scale
+    # Concentric crisp ripple rings
+    d_halo = ImageDraw.Draw(glow)
+    d_halo.ellipse((bx - 95, by - 95, bx + 95, by + 95), outline=(100, 180, 255, 140), width=3)
+    d_halo.ellipse((bx - 68, by - 68, bx + 68, by + 68), outline=(160, 220, 255, 210), width=3)
+    d_halo.ellipse((bx - 46, by - 46, bx + 46, by + 46), outline=(230, 245, 255, 255), width=4)
 
-        draw_h.rounded_rectangle(
-            (pill_x, pill_y, pill_x + pill_w, pill_y + pill_h),
-            pill_h // 2,
-            fill=(15, 35, 75, 180),
-            outline=(60, 110, 210, 140),
-            width=2 * scale
-        )
-        draw_h.text((pill_x + pad_x, pill_y + pad_y - 2 * scale), pill_text, font=f_tag, fill=(100, 180, 255, 255))
+    bg4.paste(glow, (0, 0), glow)
 
-        t_bbox = f_bold.getbbox(title_text)
-        t_w = t_bbox[2] - t_bbox[0]
-        t_x = (W * scale - t_w) // 2
-        t_y = pill_y + pill_h + 24 * scale
+    # Enlarge the + button itself by 1.25x for standout visual pop
+    btn_crop_box = (
+        int(cx - 62), int(cy - 62),
+        int(cx + 62), int(cy + 62)
+    )
+    btn_img = raw1.crop(btn_crop_box)
+    enlarged_size = int(btn_r * 2 * 1.25)
+    btn_scaled = btn_img.resize((enlarged_size, enlarged_size), Image.Resampling.LANCZOS)
 
-        draw_h.text((t_x, t_y + 3 * scale), title_text, font=f_bold, fill=(0, 2, 8, 200))
-        draw_h.text((t_x, t_y), title_text, font=f_bold, fill=(255, 255, 255, 255))
+    btn_mask = Image.new('L', (enlarged_size, enlarged_size), 0)
+    d_btn_mask = ImageDraw.Draw(btn_mask)
+    d_btn_mask.ellipse((0, 0, enlarged_size, enlarged_size), fill=255)
 
-        header_1x = h_4x.resize((W, header_h), Image.Resampling.LANCZOS)
-        bg4.paste(header_1x, (0, 0), header_1x)
+    shadow = Image.new('RGBA', (enlarged_size + 20, enlarged_size + 20), (0, 0, 0, 0))
+    d_sh = ImageDraw.Draw(shadow)
+    d_sh.ellipse((10, 10, enlarged_size + 10, enlarged_size + 10), fill=(0, 15, 60, 180))
+    shadow = shadow.filter(ImageFilter.GaussianBlur(8))
+    bg4.paste(shadow, (bx - (enlarged_size + 20)//2, by - (enlarged_size + 20)//2 + 4), shadow)
+    bg4.paste(btn_scaled, (bx - enlarged_size//2, by - enlarged_size//2), btn_mask)
 
-        out_path = os.path.join(out_dir, 'phone_04_quick_log.png')
-        bg4.save(out_path, 'PNG', optimize=True)
-        print(f"  ✓ phone_04_quick_log.png")
-        return
-
-    en_p4_path = os.path.join(OUT_DIR_BASE, 'english', 'phone_04_quick_log.png')
-    if not os.path.exists(en_p4_path):
-        en_p4_path = os.path.join(OUT_DIR_BASE, 'phone_04_quick_log.png')
-    base_p4 = Image.open(en_p4_path).convert('RGB')
-    
-    # Vertically interpolate background columns between y=65 and y=205
-    clean_p4 = base_p4.copy()
-    p4_pixels = clean_p4.load()
-    y1, y2 = 65, 205
-    for y in range(y1, y2 + 1):
-        t = (y - y1) / float(y2 - y1)
-        for x in range(W):
-            c1 = base_p4.getpixel((x, y1))
-            c2 = base_p4.getpixel((x, y2))
-            r = int(c1[0] * (1 - t) + c2[0] * t)
-            g = int(c1[1] * (1 - t) + c2[1] * t)
-            b = int(c1[2] * (1 - t) + c2[2] * t)
-            p4_pixels[x, y] = (r, g, b)
-            
     # Render 4x supersampled header
     scale = 4
     header_h = 240
     h_4x = Image.new('RGBA', (W * scale, header_h * scale), (0, 0, 0, 0))
     draw_h = ImageDraw.Draw(h_4x)
-    
+
     f_bold = ImageFont.truetype(config['font_path'], int(s4['size'] * scale), index=config['font_index'])
     f_tag = ImageFont.truetype(config['font_path'], 23 * scale, index=config['font_index'])
-    
+
     pill_text = s4['pill']
     title_text = s4['title']
-    
-    # Pill
+
     tag_bbox = f_tag.getbbox(pill_text)
     tag_w = tag_bbox[2] - tag_bbox[0]
     tag_h = tag_bbox[3] - tag_bbox[1]
@@ -491,7 +542,7 @@ def render_phone_04(country_key, config, out_dir, raw_dir=RAW_DIR):
     pill_h = tag_h + pad_y * 2
     pill_x = (W * scale - pill_w) // 2
     pill_y = 48 * scale
-    
+
     draw_h.rounded_rectangle(
         (pill_x, pill_y, pill_x + pill_w, pill_y + pill_h),
         pill_h // 2,
@@ -500,22 +551,22 @@ def render_phone_04(country_key, config, out_dir, raw_dir=RAW_DIR):
         width=2 * scale
     )
     draw_h.text((pill_x + pad_x, pill_y + pad_y - 2 * scale), pill_text, font=f_tag, fill=(100, 180, 255, 255))
-    
-    # Title
+
     t_bbox = f_bold.getbbox(title_text)
     t_w = t_bbox[2] - t_bbox[0]
     t_x = (W * scale - t_w) // 2
     t_y = pill_y + pill_h + 24 * scale
-    
+
     draw_h.text((t_x, t_y + 3 * scale), title_text, font=f_bold, fill=(0, 2, 8, 200))
     draw_h.text((t_x, t_y), title_text, font=f_bold, fill=(255, 255, 255, 255))
-    
+
     header_1x = h_4x.resize((W, header_h), Image.Resampling.LANCZOS)
-    final_p4 = clean_p4.convert('RGBA')
-    final_p4.paste(header_1x, (0, 0), header_1x)
-    
+    bg4.paste(header_1x, (0, 0), header_1x)
+
     out_path = os.path.join(out_dir, 'phone_04_quick_log.png')
-    final_p4.convert('RGB').save(out_path, 'PNG', optimize=True)
+    bg4.save(out_path, 'PNG', optimize=True)
+    if country_key == 'english':
+        bg4.save(os.path.join(OUT_DIR_BASE, 'phone_04_quick_log.png'), 'PNG', optimize=True)
     print(f"  ✓ phone_04_quick_log.png")
 
 def generate_country(country_name):
@@ -536,6 +587,8 @@ def generate_country(country_name):
     bg1.paste(sh1, ((W - dw1) // 2 - m1, 370 - m1), sh1)
     render_header(bg1, s1['pill'], s1['lines'], config['font_path'], config['font_index'], s1['size'])
     bg1.save(os.path.join(country_dir, 'phone_01_home.png'), 'PNG', optimize=True)
+    if country_name == 'english':
+        bg1.save(os.path.join(OUT_DIR_BASE, 'phone_01_home.png'), 'PNG', optimize=True)
     print("  ✓ phone_01_home.png")
     
     # 02 Detail
@@ -546,6 +599,8 @@ def generate_country(country_name):
     bg2.paste(sh2, ((W - dw2) // 2 - m2, 370 - m2), sh2)
     render_header(bg2, s2['pill'], s2['lines'], config['font_path'], config['font_index'], s2['size'])
     bg2.save(os.path.join(country_dir, 'phone_02_detail.png'), 'PNG', optimize=True)
+    if country_name == 'english':
+        bg2.save(os.path.join(OUT_DIR_BASE, 'phone_02_detail.png'), 'PNG', optimize=True)
     print("  ✓ phone_02_detail.png")
     
     # 03 Themes
@@ -559,10 +614,28 @@ def generate_country(country_name):
     bg3.paste(sh_d, (int(W * 0.44) - m_d, 425 - m_d), sh_d)
     render_header(bg3, s3['pill'], s3['lines'], config['font_path'], config['font_index'], s3['size'])
     bg3.save(os.path.join(country_dir, 'phone_03_themes.png'), 'PNG', optimize=True)
+    if country_name == 'english':
+        bg3.save(os.path.join(OUT_DIR_BASE, 'phone_03_themes.png'), 'PNG', optimize=True)
     print("  ✓ phone_03_themes.png")
     
     # 04 Quick Log
     render_phone_04(country_name, config, country_dir, country_raw_dir)
+
+    # 05 Categories
+    if '05' in config['screens']:
+        s5 = config['screens']['05']
+        bg5 = create_rich_background(W, H)
+        cat_raw_path = os.path.join(country_raw_dir, '05_categories.png')
+        if not os.path.exists(cat_raw_path):
+            cat_raw_path = os.path.join(RAW_DIR, '05_categories.png')
+        raw5 = Image.open(cat_raw_path).convert('RGBA')
+        sh5, dw5, dh5, m5 = build_phone_device(raw5, target_w=580)
+        bg5.paste(sh5, ((W - dw5) // 2 - m5, 370 - m5), sh5)
+        render_header(bg5, s5['pill'], s5['lines'], config['font_path'], config['font_index'], s5['size'])
+        bg5.save(os.path.join(country_dir, 'phone_05_categories.png'), 'PNG', optimize=True)
+        if country_name == 'english':
+            bg5.save(os.path.join(OUT_DIR_BASE, 'phone_05_categories.png'), 'PNG', optimize=True)
+        print("  ✓ phone_05_categories.png")
 def main():
     for country in COUNTRIES:
         generate_country(country)

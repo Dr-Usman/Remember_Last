@@ -30,10 +30,11 @@ supported platforms from GitHub Releases.
 ## Screenshots
 
 <p>
-  <img src="docs/screenshots/home_light.png" alt="Home — light" width="180" />
-  <img src="docs/screenshots/home_dark.png" alt="Home — dark" width="180" />
-  <img src="docs/screenshots/detail_light.png" alt="Activity detail" width="180" />
-  <img src="docs/screenshots/insights_light.png" alt="Insights" width="180" />
+  <img src="docs/screenshots/home_light.png" alt="Home — light" width="150" />
+  <img src="docs/screenshots/home_dark.png" alt="Home — dark" width="150" />
+  <img src="docs/screenshots/detail_light.png" alt="Activity detail" width="150" />
+  <img src="docs/screenshots/categories_light.png" alt="Categories" width="150" />
+  <img src="docs/screenshots/insights_light.png" alt="Insights" width="150" />
 </p>
 
 ## Features
