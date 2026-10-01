@@ -135,7 +135,9 @@ class _ActivityFormScreenState extends ConsumerState<ActivityFormScreen> {
                       );
                       if (picked != null) {
                         setState(() => _categoryController.text = picked);
-                        ref.read(analyticsServiceProvider).trackCategorySelected(
+                        ref
+                            .read(analyticsServiceProvider)
+                            .trackCategorySelected(
                               category: picked,
                               isCleared: picked.isEmpty,
                             );

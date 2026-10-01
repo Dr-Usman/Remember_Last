@@ -165,7 +165,9 @@ class CategoryPickerSheet extends ConsumerWidget {
                   await ref
                       .read(categoryRepositoryProvider)
                       .addCategory(result.name, icon: result.icon);
-                  ref.read(analyticsServiceProvider).trackCategoryCreated(
+                  ref
+                      .read(analyticsServiceProvider)
+                      .trackCategoryCreated(
                         categoryName: result.name,
                         icon: result.icon,
                         source: 'picker_sheet',

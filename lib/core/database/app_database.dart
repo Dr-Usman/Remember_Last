@@ -247,6 +247,16 @@ class AppDatabase extends _$AppDatabase {
 
   Future<void> renameCategory(int id, String newName, {String? newIcon}) =>
       updateCategory(id, newName: newName, newIcon: newIcon);
+
+  /// Wipes all occurrences, activities, and optionally categories.
+  Future<void> clearAllData({bool reseedDefaultCategories = true}) async {
+    await delete(occurrences).go();
+    await delete(activities).go();
+    await delete(categories).go();
+    if (reseedDefaultCategories) {
+      await _seedDefaultCategories();
+    }
+  }
 }
 
 QueryExecutor _openConnection() {

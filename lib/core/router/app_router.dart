@@ -10,6 +10,7 @@ import '../../features/categories/presentation/screens/categories_management_scr
 import '../../features/insights/presentation/screens/insights_screen.dart';
 import '../../features/occurrences/presentation/screens/activity_detail_screen.dart';
 import '../../features/settings/presentation/screens/about_screen.dart';
+import '../../features/settings/presentation/screens/demo_seeder_screen.dart';
 import '../../features/settings/presentation/screens/privacy_policy_screen.dart';
 import '../../features/settings/presentation/screens/settings_screen.dart';
 import 'app_routes.dart';
@@ -74,6 +75,11 @@ final routerProvider = Provider<GoRouter>((ref) {
             path: AppRoutes.privacySegment,
             name: 'privacy',
             builder: (context, state) => const PrivacyPolicyScreen(),
+          ),
+          GoRoute(
+            path: AppRoutes.demoSeederSegment,
+            name: 'demoSeeder',
+            builder: (context, state) => const DemoSeederScreen(),
           ),
         ],
       ),

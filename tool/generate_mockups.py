@@ -22,9 +22,10 @@ HINDI_FONT = '/System/Library/Fonts/Kohinoor.ttc'
 THAI_FONT = '/System/Library/Fonts/Supplemental/Thonburi.ttc'
 
 COUNTRIES = {
-    'english': {
+    'en-US': {
         'font_path': LATIN_FONT,
         'font_index': 1,
+        'raw_dir': 'en-US',
         'screens': {
             '01': {
                 'pill': '100% OFFLINE • NO ADS',
@@ -53,7 +54,7 @@ COUNTRIES = {
             }
         }
     },
-    'germany': {
+    'de-DE': {
         'font_path': LATIN_FONT,
         'font_index': 1,
         'screens': {
@@ -84,10 +85,10 @@ COUNTRIES = {
             }
         }
     },
-    'japan': {
+    'ja-JP': {
         'font_path': JAPANESE_FONT,
         'font_index': 2,
-        'raw_dir': 'ja',
+        'raw_dir': 'ja-JP',
         'screens': {
             '01': {
                 'pill': '完全オフライン • 広告なし',
@@ -116,7 +117,7 @@ COUNTRIES = {
             }
         }
     },
-    'spain': {
+    'es-419': {
         'font_path': LATIN_FONT,
         'font_index': 1,
         'screens': {
@@ -147,7 +148,7 @@ COUNTRIES = {
             }
         }
     },
-    'lithuania': {
+    'lt': {
         'font_path': LATIN_FONT,
         'font_index': 1,
         'raw_dir': 'lt',
@@ -179,7 +180,7 @@ COUNTRIES = {
             }
         }
     },
-    'india': {
+    'hi-IN': {
         'font_path': HINDI_FONT,
         'font_index': 3,
         'screens': {
@@ -210,7 +211,7 @@ COUNTRIES = {
             }
         }
     },
-    'romania': {
+    'ro': {
         'font_path': LATIN_FONT,
         'font_index': 1,
         'screens': {
@@ -241,7 +242,7 @@ COUNTRIES = {
             }
         }
     },
-    'thailand': {
+    'th': {
         'font_path': THAI_FONT,
         'font_index': 1,
         'screens': {
@@ -272,7 +273,7 @@ COUNTRIES = {
             }
         }
     },
-    'netherlands': {
+    'nl-NL': {
         'font_path': LATIN_FONT,
         'font_index': 1,
         'screens': {
@@ -303,7 +304,7 @@ COUNTRIES = {
             }
         }
     },
-    'france': {
+    'fr-FR': {
         'font_path': LATIN_FONT,
         'font_index': 1,
         'screens': {
@@ -450,15 +451,28 @@ def render_header(canvas, pill_text, title_lines, font_path, font_index=1, title
     header_1x = h_4x.resize((W, header_h), Image.Resampling.LANCZOS)
     canvas.paste(header_1x, (0, 0), header_1x)
 
-def render_phone_04(country_key, config, out_dir, raw_dir=RAW_DIR):
+def get_raw_screenshot(raw_dir_name, base_name):
+    """Finds raw screenshot for the given locale or falls back to en-US."""
+    if raw_dir_name:
+        p1 = os.path.join(RAW_DIR, raw_dir_name, f"{base_name}_{raw_dir_name}.png")
+        if os.path.exists(p1):
+            return p1
+        p2 = os.path.join(RAW_DIR, raw_dir_name, f"{base_name}.png")
+        if os.path.exists(p2):
+            return p2
+            
+    # Fallback to en-US
+    p_en = os.path.join(RAW_DIR, 'en-US', f"{base_name}_en-US.png")
+    if os.path.exists(p_en):
+        return p_en
+    return os.path.join(RAW_DIR, 'en-US', f"{base_name}.png")
+
+def render_phone_04(locale_code, config, out_dir):
     """Generates Phone 04 with spotlighted card, multi-layer glowing ripple, and enlarged + button."""
     s4 = config['screens']['04']
     raw_sub = config.get('raw_dir')
 
-    raw_home_path = os.path.join(raw_dir, '01_home.png')
-    if not os.path.exists(raw_home_path):
-        raw_home_path = os.path.join(RAW_DIR, '01_home.png')
-
+    raw_home_path = get_raw_screenshot(raw_sub, '01_home')
     raw1 = Image.open(raw_home_path).convert('RGBA')
     bg4 = create_rich_background(W, H)
     sh4, dw4, dh4, m4 = build_phone_device(raw1, target_w=580)
@@ -563,82 +577,69 @@ def render_phone_04(country_key, config, out_dir, raw_dir=RAW_DIR):
     header_1x = h_4x.resize((W, header_h), Image.Resampling.LANCZOS)
     bg4.paste(header_1x, (0, 0), header_1x)
 
-    out_path = os.path.join(out_dir, 'phone_04_quick_log.png')
+    out_path = os.path.join(out_dir, f'phone_04_quick_log_{locale_code}.png')
     bg4.save(out_path, 'PNG', optimize=True)
-    if country_key == 'english':
-        bg4.save(os.path.join(OUT_DIR_BASE, 'phone_04_quick_log.png'), 'PNG', optimize=True)
-    print(f"  ✓ phone_04_quick_log.png")
+    print(f"  ✓ phone_04_quick_log_{locale_code}.png")
 
-def generate_country(country_name):
-    config = COUNTRIES[country_name]
-    country_dir = os.path.join(OUT_DIR_BASE, country_name)
+def generate_country(locale_code):
+    config = COUNTRIES[locale_code]
+    country_dir = os.path.join(OUT_DIR_BASE, locale_code)
     os.makedirs(country_dir, exist_ok=True)
     
     raw_sub = config.get('raw_dir')
-    country_raw_dir = os.path.join(RAW_DIR, raw_sub) if raw_sub else RAW_DIR
     
-    print(f"\nGenerating {country_name.upper()} mockups in {country_dir}...")
+    print(f"\nGenerating {locale_code} mockups in {country_dir}...")
     
     # 01 Home
     s1 = config['screens']['01']
     bg1 = create_rich_background(W, H)
-    raw1 = Image.open(os.path.join(country_raw_dir, '01_home.png')).convert('RGBA')
+    raw1 = Image.open(get_raw_screenshot(raw_sub, '01_home')).convert('RGBA')
     sh1, dw1, dh1, m1 = build_phone_device(raw1, target_w=580)
     bg1.paste(sh1, ((W - dw1) // 2 - m1, 370 - m1), sh1)
     render_header(bg1, s1['pill'], s1['lines'], config['font_path'], config['font_index'], s1['size'])
-    bg1.save(os.path.join(country_dir, 'phone_01_home.png'), 'PNG', optimize=True)
-    if country_name == 'english':
-        bg1.save(os.path.join(OUT_DIR_BASE, 'phone_01_home.png'), 'PNG', optimize=True)
-    print("  ✓ phone_01_home.png")
+    bg1.save(os.path.join(country_dir, f'phone_01_home_{locale_code}.png'), 'PNG', optimize=True)
+    print(f"  ✓ phone_01_home_{locale_code}.png")
     
     # 02 Detail
     s2 = config['screens']['02']
     bg2 = create_rich_background(W, H)
-    raw2 = Image.open(os.path.join(country_raw_dir, '02_detail.png')).convert('RGBA')
+    raw2 = Image.open(get_raw_screenshot(raw_sub, '02_detail')).convert('RGBA')
     sh2, dw2, dh2, m2 = build_phone_device(raw2, target_w=580)
     bg2.paste(sh2, ((W - dw2) // 2 - m2, 370 - m2), sh2)
     render_header(bg2, s2['pill'], s2['lines'], config['font_path'], config['font_index'], s2['size'])
-    bg2.save(os.path.join(country_dir, 'phone_02_detail.png'), 'PNG', optimize=True)
-    if country_name == 'english':
-        bg2.save(os.path.join(OUT_DIR_BASE, 'phone_02_detail.png'), 'PNG', optimize=True)
-    print("  ✓ phone_02_detail.png")
+    bg2.save(os.path.join(country_dir, f'phone_02_detail_{locale_code}.png'), 'PNG', optimize=True)
+    print(f"  ✓ phone_02_detail_{locale_code}.png")
     
     # 03 Themes
     s3 = config['screens']['03']
     bg3 = create_rich_background(W, H)
-    raw_l = Image.open(os.path.join(country_raw_dir, '01_home_light.png')).convert('RGBA')
-    raw_d = Image.open(os.path.join(country_raw_dir, '01_home_dark.png')).convert('RGBA')
+    raw_l = Image.open(get_raw_screenshot(raw_sub, '01_home_light')).convert('RGBA')
+    raw_d = Image.open(get_raw_screenshot(raw_sub, '01_home_dark')).convert('RGBA')
     sh_l, dw_l, dh_l, m_l = build_phone_device(raw_l, target_w=460)
     sh_d, dw_d, dh_d, m_d = build_phone_device(raw_d, target_w=460)
     bg3.paste(sh_l, (int(W * 0.04) - m_l, 400 - m_l), sh_l)
     bg3.paste(sh_d, (int(W * 0.44) - m_d, 425 - m_d), sh_d)
     render_header(bg3, s3['pill'], s3['lines'], config['font_path'], config['font_index'], s3['size'])
-    bg3.save(os.path.join(country_dir, 'phone_03_themes.png'), 'PNG', optimize=True)
-    if country_name == 'english':
-        bg3.save(os.path.join(OUT_DIR_BASE, 'phone_03_themes.png'), 'PNG', optimize=True)
-    print("  ✓ phone_03_themes.png")
+    bg3.save(os.path.join(country_dir, f'phone_03_themes_{locale_code}.png'), 'PNG', optimize=True)
+    print(f"  ✓ phone_03_themes_{locale_code}.png")
     
     # 04 Quick Log
-    render_phone_04(country_name, config, country_dir, country_raw_dir)
+    render_phone_04(locale_code, config, country_dir)
 
     # 05 Categories
     if '05' in config['screens']:
         s5 = config['screens']['05']
         bg5 = create_rich_background(W, H)
-        cat_raw_path = os.path.join(country_raw_dir, '05_categories.png')
-        if not os.path.exists(cat_raw_path):
-            cat_raw_path = os.path.join(RAW_DIR, '05_categories.png')
-        raw5 = Image.open(cat_raw_path).convert('RGBA')
+        raw5 = Image.open(get_raw_screenshot(raw_sub, '05_categories')).convert('RGBA')
         sh5, dw5, dh5, m5 = build_phone_device(raw5, target_w=580)
         bg5.paste(sh5, ((W - dw5) // 2 - m5, 370 - m5), sh5)
         render_header(bg5, s5['pill'], s5['lines'], config['font_path'], config['font_index'], s5['size'])
-        bg5.save(os.path.join(country_dir, 'phone_05_categories.png'), 'PNG', optimize=True)
-        if country_name == 'english':
-            bg5.save(os.path.join(OUT_DIR_BASE, 'phone_05_categories.png'), 'PNG', optimize=True)
-        print("  ✓ phone_05_categories.png")
+        bg5.save(os.path.join(country_dir, f'phone_05_categories_{locale_code}.png'), 'PNG', optimize=True)
+        print(f"  ✓ phone_05_categories_{locale_code}.png")
+
 def main():
-    for country in COUNTRIES:
-        generate_country(country)
+    for locale in COUNTRIES:
+        generate_country(locale)
     print("\nAll country mockups up to date!")
 
 if __name__ == '__main__':

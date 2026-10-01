@@ -63,6 +63,8 @@ class _InsightsScreenState extends ConsumerState<InsightsScreen> {
             children: [
               _GlobalStatsCard(insights: insights),
               const SizedBox(height: 16),
+              _IntervalsSection(insight: selected),
+              const SizedBox(height: 20),
               Text(
                 l10n.activityBreakdown,
                 style: Theme.of(context).textTheme.titleMedium,
@@ -91,8 +93,6 @@ class _InsightsScreenState extends ConsumerState<InsightsScreen> {
                   ),
                 ),
               ),
-              const SizedBox(height: 16),
-              _IntervalsSection(insight: selected),
             ],
           );
         },

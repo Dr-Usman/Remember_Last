@@ -15,12 +15,18 @@ class LanguagePickerTile extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     final l10n = AppLocalizations.of(context);
     final override = ref.watch(localeOverrideProvider);
+    final activeLocale = override ?? Localizations.localeOf(context);
     final subtitle = override == null
         ? l10n.languageSystemDefault
         : AppLocales.nativeName(override);
+    final flag = AppLocales.flag(activeLocale);
 
     return SettingsTile(
-      icon: Icons.language,
+      leadingWidget: SizedBox(
+        width: 24,
+        height: 24,
+        child: Center(child: Text(flag, style: const TextStyle(fontSize: 20))),
+      ),
       title: l10n.language,
       subtitle: subtitle,
       showChevron: true,
@@ -118,19 +124,19 @@ class _LanguagePickerSheet extends StatelessWidget {
                 crossAxisCount: 2,
                 mainAxisSpacing: 8,
                 crossAxisSpacing: 8,
-                childAspectRatio: 2.4,
+                childAspectRatio: 2.5,
               ),
-              itemCount: AppLocales.supported.length,
+              itemCount: AppLocales.all.length,
               itemBuilder: (context, index) {
-                final locale = AppLocales.supported[index];
-                final code = locale.languageCode;
-                final native = AppLocales.nativeName(locale);
-                final english = AppLocales.englishName(locale);
+                final item = AppLocales.all[index];
                 return _LanguageCell(
-                  nativeName: native,
-                  englishName: english == native ? null : english,
-                  selected: groupValue == code,
-                  onTap: () => Navigator.pop(context, code),
+                  flag: item.flag,
+                  nativeName: item.nativeName,
+                  englishName: item.englishName == item.nativeName
+                      ? null
+                      : item.englishName,
+                  selected: groupValue == item.code,
+                  onTap: () => Navigator.pop(context, item.code),
                 );
               },
             ),
@@ -166,7 +172,7 @@ class _SystemDefaultTile extends StatelessWidget {
         onTap: onTap,
         borderRadius: BorderRadius.circular(12),
         child: Container(
-          padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 14),
+          padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
           decoration: BoxDecoration(
             borderRadius: BorderRadius.circular(12),
             border: Border.all(
@@ -177,6 +183,8 @@ class _SystemDefaultTile extends StatelessWidget {
           ),
           child: Row(
             children: [
+              const Text('🌐', style: TextStyle(fontSize: 18)),
+              const SizedBox(width: 12),
               Expanded(
                 child: Text(
                   label,
@@ -202,12 +210,14 @@ class _SystemDefaultTile extends StatelessWidget {
 
 class _LanguageCell extends StatelessWidget {
   const _LanguageCell({
+    required this.flag,
     required this.nativeName,
     required this.englishName,
     required this.selected,
     required this.onTap,
   });
 
+  final String flag;
   final String nativeName;
   final String? englishName;
   final bool selected;
@@ -227,7 +237,7 @@ class _LanguageCell extends StatelessWidget {
         onTap: onTap,
         borderRadius: BorderRadius.circular(12),
         child: Container(
-          padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 10),
+          padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 4),
           decoration: BoxDecoration(
             borderRadius: BorderRadius.circular(12),
             border: Border.all(
@@ -238,6 +248,8 @@ class _LanguageCell extends StatelessWidget {
           ),
           child: Row(
             children: [
+              Text(flag, style: const TextStyle(fontSize: 16)),
+              const SizedBox(width: 8),
               Expanded(
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
@@ -248,6 +260,7 @@ class _LanguageCell extends StatelessWidget {
                       maxLines: 1,
                       overflow: TextOverflow.ellipsis,
                       style: theme.textTheme.titleSmall?.copyWith(
+                        fontSize: 13,
                         fontWeight: selected
                             ? FontWeight.w600
                             : FontWeight.w500,

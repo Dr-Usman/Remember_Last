@@ -307,7 +307,9 @@ class CategoriesManagementScreen extends ConsumerWidget {
         await ref
             .read(categoryRepositoryProvider)
             .addCategory(result.name, icon: result.icon);
-        ref.read(analyticsServiceProvider).trackCategoryCreated(
+        ref
+            .read(analyticsServiceProvider)
+            .trackCategoryCreated(
               categoryName: result.name,
               icon: result.icon,
               source: 'management_screen',
@@ -345,7 +347,9 @@ class CategoriesManagementScreen extends ConsumerWidget {
       await ref
           .read(categoryRepositoryProvider)
           .renameCategory(id, result.name, newIcon: result.icon);
-      ref.read(analyticsServiceProvider).trackCategoryEdited(
+      ref
+          .read(analyticsServiceProvider)
+          .trackCategoryEdited(
             oldName: currentName,
             newName: result.name,
             icon: result.icon,

@@ -124,9 +124,8 @@ abstract final class AnalyticsEvents {
     'platform': platformName,
   };
 
-  static Map<String, dynamic> categoryDeleted({
-    required String categoryName,
-  }) => {'category_name': categoryName, 'platform': platformName};
+  static Map<String, dynamic> categoryDeleted({required String categoryName}) =>
+      {'category_name': categoryName, 'platform': platformName};
 
   static Map<String, dynamic> categorySelected({
     required String category,

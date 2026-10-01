@@ -27,28 +27,38 @@ This folder contains localized store listings ready to copy-paste directly into 
 4. Select the languages you want to enable (German, Spanish, Lithuanian, Dutch, French, Hindi, Romanian, Thai, Japanese) and click **Save**.
 5. Switch to each language from the dropdown:
    - Copy the **App name**, **Short description**, and **Full description** from the corresponding file above.
-   - In the **Phone screenshots** section, upload the 4 corresponding localized mockups from `store_assets/play_store/<country_name>/`.
+   - In the **Phone screenshots** section, upload the 5 corresponding localized mockups (`phone_01_...` to `phone_05_...`) from `store_assets/play_store/<locale_code>/`.
+   - In the **Feature graphic** section, upload `feature_graphic_<locale_code>.png` from `store_assets/play_store/<locale_code>/`.
 6. Click **Save** at the bottom right.
 
 ---
 
-## Localized Mockup Screenshots (1024x1536)
+## Localized Assets & Feature Graphics (Play Store)
 
-Pre-rendered high-resolution mockups with localized headlines, 4x supersampled typography, and authentic device frames are saved in clear country-named folders under `store_assets/play_store/`:
+Pre-rendered high-resolution mockups (1024×1536) and studio-grade feature graphics (1024×500) with localized headlines, 4x supersampled typography, and authentic device frames are organized in locale-coded folders under `store_assets/play_store/`:
 
-- 🇺🇸 **English**: `store_assets/play_store/english/`
-- 🇩🇪 **Germany**: `store_assets/play_store/germany/`
-- 🇳🇱 **Netherlands & Belgium (Dutch)**: `store_assets/play_store/netherlands/`
-- 🇫🇷 **France & Belgium (French)**: `store_assets/play_store/france/`
-- 🇯🇵 **Japan**: `store_assets/play_store/japan/`
-- 🇪🇸 **Spain & Mexico**: `store_assets/play_store/spain/`
-- 🇱🇹 **Lithuania**: `store_assets/play_store/lithuania/`
-- 🇮🇳 **India**: `store_assets/play_store/india/`
-- 🇷🇴 **Romania**: `store_assets/play_store/romania/`
-- 🇹🇭 **Thailand**: `store_assets/play_store/thailand/`
+- 🇺🇸 **English (`en-US`)**: `store_assets/play_store/en-US/`
+- 🇩🇪 **German (`de-DE`)**: `store_assets/play_store/de-DE/`
+- 🇪🇸 **Spanish (`es-419`)**: `store_assets/play_store/es-419/`
+- 🇫🇷 **French (`fr-FR`)**: `store_assets/play_store/fr-FR/`
+- 🇮🇳 **Hindi (`hi-IN`)**: `store_assets/play_store/hi-IN/`
+- 🇯🇵 **Japanese (`ja-JP`)**: `store_assets/play_store/ja-JP/`
+- 🇱🇹 **Lithuanian (`lt`)**: `store_assets/play_store/lt/`
+- 🇳🇱 **Dutch (`nl-NL`)**: `store_assets/play_store/nl-NL/`
+- 🇷🇴 **Romanian (`ro`)**: `store_assets/play_store/ro/`
+- 🇹🇭 **Thai (`th`)**: `store_assets/play_store/th/`
 
-To re-generate all country mockups at any time, run:
+Each folder contains:
+1. `feature_graphic_<locale>.png` (1024×500)
+2. `phone_01_home_<locale>.png` (1024×1536)
+3. `phone_02_detail_<locale>.png` (1024×1536)
+4. `phone_03_themes_<locale>.png` (1024×1536)
+5. `phone_04_quick_log_<locale>.png` (1024×1536)
+6. `phone_05_categories_<locale>.png` (1024×1536)
+
+To re-generate all store assets at any time:
 ```bash
 python3 tool/generate_mockups.py
+python3 tool/generate_feature_graphic.py
 ```
 

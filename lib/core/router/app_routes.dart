@@ -9,10 +9,12 @@ abstract final class AppRoutes {
   static const categoriesSegment = 'categories';
   static const aboutSegment = 'about';
   static const privacySegment = 'privacy';
+  static const demoSeederSegment = 'demo-seeder';
 
   static const categories = '$settings/$categoriesSegment';
   static const about = '$settings/$aboutSegment';
   static const privacy = '$settings/$privacySegment';
+  static const demoSeeder = '$settings/$demoSeederSegment';
 
   static String activityDetail(int id) => '/activity/$id';
   static String activityEdit(int id) => '/activity/$id/edit';

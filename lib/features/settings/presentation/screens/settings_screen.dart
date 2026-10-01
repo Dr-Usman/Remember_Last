@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 
+import '../../../../bootstrap/demo_seeder.dart';
 import '../../../../core/constants/app_constants.dart';
 import '../../../../core/providers/analytics_provider.dart';
 import '../../../../core/providers/package_info_provider.dart';
@@ -50,6 +51,45 @@ class _SettingsScreenState extends ConsumerState<SettingsScreen> {
     } else {
       await analytics.optOut();
     }
+  }
+
+  Future<void> _confirmClearDatabase(BuildContext context) async {
+    final theme = Theme.of(context);
+    final confirmed = await showDialog<bool>(
+      context: context,
+      builder: (dialogCtx) => AlertDialog(
+        title: const Text('Clear Entire Database?'),
+        content: const Text(
+          'This will permanently delete all activities, occurrences, and custom categories.\n\nDefault categories will be restored.',
+        ),
+        actions: [
+          TextButton(
+            onPressed: () => Navigator.of(dialogCtx).pop(false),
+            child: const Text('Cancel'),
+          ),
+          FilledButton(
+            style: FilledButton.styleFrom(
+              backgroundColor: theme.colorScheme.error,
+              foregroundColor: theme.colorScheme.onError,
+            ),
+            onPressed: () => Navigator.of(dialogCtx).pop(true),
+            child: const Text('Clear All'),
+          ),
+        ],
+      ),
+    );
+
+    if (confirmed != true || !context.mounted) return;
+
+    await DemoSeeder.clearDatabase(ref);
+
+    if (!context.mounted) return;
+    ScaffoldMessenger.of(context).showSnackBar(
+      const SnackBar(
+        content: Text('Database cleared successfully.'),
+        behavior: SnackBarBehavior.floating,
+      ),
+    );
   }
 
   @override
@@ -216,6 +256,25 @@ class _SettingsScreenState extends ConsumerState<SettingsScreen> {
                         .trackSettingsActionTapped('privacy_policy');
                     context.push(AppRoutes.privacy);
                   },
+                ),
+                const Divider(height: 1),
+                _SectionHeader(title: 'DEVELOPER / DEMO TOOLS', theme: theme),
+                SettingsTile(
+                  icon: Icons.auto_fix_high_outlined,
+                  title: 'Seed Demo Data',
+                  subtitle:
+                      'Wipe & populate sample activities in chosen language',
+                  showChevron: true,
+                  onTap: () => context.push(AppRoutes.demoSeeder),
+                ),
+                SettingsTile(
+                  icon: Icons.delete_sweep_outlined,
+                  title: 'Clear Entire Database',
+                  subtitle:
+                      'Delete all activities, occurrences & reset categories',
+                  textColor: theme.colorScheme.error,
+                  iconColor: theme.colorScheme.error,
+                  onTap: () => _confirmClearDatabase(context),
                 ),
               ],
             ),

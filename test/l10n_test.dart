@@ -98,6 +98,11 @@ void main() {
     await tester.tap(find.byType(LanguagePickerTile));
     await tester.pumpAndSettle();
 
+    // Deutsch is visible in the initial grid view
+    expect(find.text('Deutsch'), findsOneWidget);
+    expect(find.text('German'), findsOneWidget);
+    // Bengali is further down in the grid
+    await tester.scrollUntilVisible(find.text('বাংলা'), 200);
     expect(find.text('বাংলা'), findsOneWidget);
     expect(find.text('Bengali'), findsOneWidget);
     // Tile subtitle + sheet row both show this label.
