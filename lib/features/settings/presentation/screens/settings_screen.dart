@@ -1,3 +1,4 @@
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
@@ -257,25 +258,27 @@ class _SettingsScreenState extends ConsumerState<SettingsScreen> {
                     context.push(AppRoutes.privacy);
                   },
                 ),
-                const Divider(height: 1),
-                _SectionHeader(title: 'DEVELOPER / DEMO TOOLS', theme: theme),
-                SettingsTile(
-                  icon: Icons.auto_fix_high_outlined,
-                  title: 'Seed Demo Data',
-                  subtitle:
-                      'Wipe & populate sample activities in chosen language',
-                  showChevron: true,
-                  onTap: () => context.push(AppRoutes.demoSeeder),
-                ),
-                SettingsTile(
-                  icon: Icons.delete_sweep_outlined,
-                  title: 'Clear Entire Database',
-                  subtitle:
-                      'Delete all activities, occurrences & reset categories',
-                  textColor: theme.colorScheme.error,
-                  iconColor: theme.colorScheme.error,
-                  onTap: () => _confirmClearDatabase(context),
-                ),
+                if (kDebugMode) ...[
+                  const Divider(height: 1),
+                  _SectionHeader(title: 'DEVELOPER / DEMO TOOLS', theme: theme),
+                  SettingsTile(
+                    icon: Icons.auto_fix_high_outlined,
+                    title: 'Seed Demo Data',
+                    subtitle:
+                        'Wipe & populate sample activities in chosen language',
+                    showChevron: true,
+                    onTap: () => context.push(AppRoutes.demoSeeder),
+                  ),
+                  SettingsTile(
+                    icon: Icons.delete_sweep_outlined,
+                    title: 'Clear Entire Database',
+                    subtitle:
+                        'Delete all activities, occurrences & reset categories',
+                    textColor: theme.colorScheme.error,
+                    iconColor: theme.colorScheme.error,
+                    onTap: () => _confirmClearDatabase(context),
+                  ),
+                ],
               ],
             ),
           ),
